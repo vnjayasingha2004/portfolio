@@ -16,6 +16,27 @@ type Project = {
 
 const projects: Project[] = [
   {
+  title: "BlindMatch PAS",
+  status: "Role-based academic workflow platform",
+  stack: ["ASP.NET Core MVC", "C#", "SQL Server", "Entity Framework Core", "Identity"],
+  summary:
+    "A project approval platform for students, supervisors, module leaders, and administrators with blind proposal submission, review workflows, dashboard views, and secure proposal management.",
+  features: [
+    "Role-based dashboards for Student, Supervisor, Module Leader, and System Admin",
+    "Blind proposal submission and review workflow",
+    "Secure authentication and authorization with ASP.NET Core Identity",
+    "Proposal attachments, validation, and admin oversight"
+  ],
+  repo: "https://github.com/vnjayasingha2004/portfolio",
+  note:
+    "Built as an enterprise-style academic workflow system focused on role separation, approval flow, and secure data handling.",
+  gradientFrom: "#1e3a8a",
+  gradientTo: "#111827",
+},
+
+
+  
+  {
     title: "LawPoint",
     status: "Full-stack legal services mobile platform",
     stack: ["Flutter", "Node.js", "Express.js", "PostgreSQL"],
@@ -84,9 +105,7 @@ export default function Projects() {
             A few things I’ve built
           </h2>
           <p className="mt-4 max-w-2xl leading-8 text-slate-300">
-            These projects show mobile development, full-stack architecture,
-            desktop software, product thinking, and security-focused problem
-            solving.
+            These projects reflect enterprise workflow systems, mobile applications, desktop software, and secure full-stack product development with real-world business and academic use cases.
           </p>
         </motion.div>
 
