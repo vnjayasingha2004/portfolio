@@ -3,9 +3,9 @@
 import { motion } from "motion/react";
 
 const highlights = [
-  { value: "3+", label: "Featured projects" },
-  { value: "Mobile / Web / Desktop", label: "Build focus" },
-  { value: "Security-first", label: "Problem solving style" },
+  { value: "4+", label: "Featured projects" },
+  { value: "Full-stack / Web / Mobile / Desktop", label: "Build focus" },
+  { value: "Workflow + security", label: "Engineering style" },
 ];
 
 export default function Hero() {
