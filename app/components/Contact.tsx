@@ -40,6 +40,14 @@ export default function Contact() {
             >
               GitHub Profile
             </a>
+            <a
+                 href="https://www.linkedin.com/in/vinira-jayasingha-472398324/"
+                 target="_blank"
+                 rel="noreferrer"
+                 className="rounded-2xl border border-white/10 bg-white/5 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              >
+             LinkedIn
+             </a>
 
             <a
               href="/Vinira_Jayasingha_CV.pdf"
