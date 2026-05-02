@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { profile } from "@/lib/profile";
 import { ProjectLaunchLink } from "./ProjectLaunchLink";
+import { projects } from "@/lib/projects";
 
 const identityRows = [
   {
@@ -14,6 +15,10 @@ const identityRows = [
     label: "University",
     value: "Plymouth University",
   },
+  {
+  label: "Built",
+  value: `${projects.length}+ Real Projects`,
+},
   {
     label: "Role",
     value: "Full-Stack Developer",
