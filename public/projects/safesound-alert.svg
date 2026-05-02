@@ -1,0 +1,9 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#080808"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <text x="86" y="112" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">ALERT NETWORK</text>
+  <text x="86" y="176" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Trusted contacts map</text>
+  <circle cx="600" cy="410" r="80" fill="#D7D0BD" fill-opacity=".14" stroke="#D7D0BD" stroke-opacity=".4"/><text x="560" y="422" fill="#F2F1EC" font-family="Inter,Arial" font-size="32" font-weight="900">SOS</text>
+  <g stroke="#D7D0BD" stroke-opacity=".55" stroke-width="3" stroke-dasharray="10 14"><path d="M600 410L312 308"/><path d="M600 410L895 300"/><path d="M600 410L410 590"/><path d="M600 410L830 578"/></g>
+  <g fill="white" fill-opacity=".07" stroke="white" stroke-opacity=".15"><rect x="206" y="240" width="212" height="124" rx="28"/><rect x="786" y="232" width="220" height="124" rx="28"/><rect x="304" y="536" width="220" height="124" rx="28"/><rect x="724" y="524" width="220" height="124" rx="28"/></g>
+  <text x="252" y="313" fill="#F2F1EC" font-family="Inter,Arial" font-size="24" font-weight="800">Contact 01</text><text x="832" y="305" fill="#F2F1EC" font-family="Inter,Arial" font-size="24" font-weight="800">Contact 02</text><text x="350" y="609" fill="#F2F1EC" font-family="Inter,Arial" font-size="24" font-weight="800">Location</text><text x="770" y="597" fill="#F2F1EC" font-family="Inter,Arial" font-size="24" font-weight="800">Alert sent</text>
+</svg>

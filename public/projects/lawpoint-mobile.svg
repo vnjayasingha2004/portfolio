@@ -1,0 +1,8 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#070708"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <circle cx="620" cy="380" r="270" fill="#D7D0BD" fill-opacity=".055"/>
+  <text x="86" y="110" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">LAWPOINT</text>
+  <text x="86" y="174" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Legal service mobile flow</text>
+  <g transform="translate(310 210)"><rect width="220" height="420" rx="42" fill="#111112" stroke="white" stroke-opacity=".18"/><rect x="18" y="52" width="184" height="315" rx="24" fill="white" fill-opacity=".055"/><circle cx="110" cy="392" r="13" fill="white" fill-opacity=".14"/><rect x="46" y="90" width="128" height="18" rx="9" fill="#F2F1EC" fill-opacity=".7"/><rect x="46" y="138" width="128" height="76" rx="18" fill="#D7D0BD" fill-opacity=".16"/><rect x="46" y="236" width="128" height="34" rx="17" fill="white" fill-opacity=".1"/><rect x="46" y="286" width="92" height="34" rx="17" fill="white" fill-opacity=".08"/></g>
+  <g transform="translate(610 156)"><rect width="260" height="500" rx="48" fill="#111112" stroke="white" stroke-opacity=".18"/><rect x="22" y="62" width="216" height="382" rx="28" fill="white" fill-opacity=".055"/><circle cx="130" cy="470" r="14" fill="white" fill-opacity=".14"/><rect x="58" y="108" width="144" height="144" rx="28" fill="#D7D0BD" fill-opacity=".14"/><rect x="58" y="282" width="144" height="42" rx="21" fill="#F2F1EC"/><rect x="58" y="348" width="108" height="42" rx="21" fill="white" fill-opacity=".09"/></g>
+</svg>

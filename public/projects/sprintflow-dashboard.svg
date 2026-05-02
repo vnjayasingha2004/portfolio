@@ -1,0 +1,21 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#070708"/>
+  <rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <path d="M0 125H1200M0 250H1200M0 375H1200M0 500H1200M0 625H1200M150 0V760M300 0V760M450 0V760M600 0V760M750 0V760M900 0V760M1050 0V760" stroke="white" stroke-opacity=".035"/>
+  <circle cx="955" cy="154" r="210" fill="#E5DED0" fill-opacity=".08"/>
+  <circle cx="210" cy="630" r="180" fill="#FFFFFF" fill-opacity=".05"/>
+  <rect x="64" y="58" width="1072" height="62" rx="20" fill="white" fill-opacity=".055" stroke="white" stroke-opacity=".12"/>
+  <circle cx="100" cy="89" r="8" fill="white" fill-opacity=".35"/><circle cx="126" cy="89" r="8" fill="white" fill-opacity=".22"/><circle cx="152" cy="89" r="8" fill="white" fill-opacity=".15"/>
+  <text x="82" y="178" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">SPRINTFLOW AI</text>
+  <text x="82" y="238" fill="#F2F1EC" font-family="Inter,Arial" font-size="62" font-weight="800" letter-spacing="-4">Project planning dashboard</text>
+  <rect x="82" y="292" width="310" height="356" rx="28" fill="white" fill-opacity=".055" stroke="white" stroke-opacity=".13"/>
+  <rect x="424" y="292" width="310" height="356" rx="28" fill="white" fill-opacity=".055" stroke="white" stroke-opacity=".13"/>
+  <rect x="766" y="292" width="310" height="356" rx="28" fill="white" fill-opacity=".055" stroke="white" stroke-opacity=".13"/>
+  <text x="114" y="350" fill="#F2F1EC" font-family="Inter,Arial" font-size="31" font-weight="700">Active sprint</text>
+  <text x="456" y="350" fill="#F2F1EC" font-family="Inter,Arial" font-size="31" font-weight="700">AI plan</text>
+  <text x="798" y="350" fill="#F2F1EC" font-family="Inter,Arial" font-size="31" font-weight="700">Tasks</text>
+  <rect x="114" y="390" width="230" height="16" rx="8" fill="white" fill-opacity=".2"/><rect x="114" y="427" width="170" height="16" rx="8" fill="white" fill-opacity=".12"/><rect x="114" y="506" width="220" height="92" rx="18" fill="#D7D0BD" fill-opacity=".12" stroke="#D7D0BD" stroke-opacity=".18"/>
+  <path d="M488 548C520 480 585 418 674 392" stroke="#D7D0BD" stroke-opacity=".7" stroke-width="3" stroke-linecap="round" stroke-dasharray="12 16"/>
+  <circle cx="488" cy="548" r="10" fill="#D7D0BD"/><circle cx="674" cy="392" r="10" fill="#D7D0BD"/>
+  <rect x="798" y="390" width="224" height="48" rx="14" fill="white" fill-opacity=".08"/><rect x="798" y="456" width="196" height="48" rx="14" fill="white" fill-opacity=".06"/><rect x="798" y="522" width="244" height="48" rx="14" fill="white" fill-opacity=".08"/>
+</svg>
