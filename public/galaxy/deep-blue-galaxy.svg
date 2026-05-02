@@ -1,0 +1,42 @@
+<svg width="2400" height="1600" viewBox="0 0 2400 1600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2400" height="1600" fill="#020715"/>
+  <defs>
+    <radialGradient id="nebulaA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(690 400) rotate(32) scale(880 420)">
+      <stop stop-color="#22466F" stop-opacity="0.55"/>
+      <stop offset="0.46" stop-color="#143258" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#020715" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="nebulaB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1640 850) rotate(-20) scale(960 470)">
+      <stop stop-color="#315D89" stop-opacity="0.36"/>
+      <stop offset="0.58" stop-color="#11294A" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#020715" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coreGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1200 740) rotate(8) scale(460 260)">
+      <stop stop-color="#8DB7DB" stop-opacity="0.13"/>
+      <stop offset="0.42" stop-color="#315B87" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#020715" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="34"/>
+    </filter>
+  </defs>
+  <path d="M-80 980C230 780 438 650 760 651C1118 652 1337 835 1689 780C1969 736 2180 575 2500 445" stroke="#5F8DB6" stroke-opacity="0.11" stroke-width="120" filter="url(#soft)"/>
+  <path d="M-80 1060C262 846 500 735 825 754C1138 772 1369 933 1690 905C1967 881 2174 713 2500 610" stroke="#173E67" stroke-opacity="0.35" stroke-width="210" filter="url(#soft)"/>
+  <rect width="2400" height="1600" fill="url(#nebulaA)"/>
+  <rect width="2400" height="1600" fill="url(#nebulaB)"/>
+  <rect width="2400" height="1600" fill="url(#coreGlow)"/>
+  <g opacity="0.52" fill="#D7EBFF">
+    <circle cx="118" cy="260" r="1.7"/><circle cx="210" cy="740" r="1.2"/><circle cx="358" cy="348" r="1.3"/><circle cx="512" cy="920" r="1.5"/><circle cx="640" cy="180" r="1.1"/><circle cx="790" cy="520" r="1.9"/><circle cx="935" cy="1240" r="1.2"/><circle cx="1060" cy="360" r="1.5"/><circle cx="1188" cy="715" r="2.3"/><circle cx="1305" cy="218" r="1.2"/><circle cx="1438" cy="1060" r="1.6"/><circle cx="1544" cy="614" r="1.3"/><circle cx="1710" cy="310" r="1.8"/><circle cx="1885" cy="820" r="1.2"/><circle cx="2040" cy="470" r="1.5"/><circle cx="2190" cy="1120" r="1.3"/><circle cx="2295" cy="260" r="1.2"/>
+  </g>
+  <g opacity="0.26" stroke="#C8E3FF" stroke-width="1">
+    <path d="M118 260L358 348L640 180"/><path d="M790 520L1060 360L1188 715L1544 614"/><path d="M1710 310L2040 470L2295 260"/><path d="M1438 1060L1885 820L2190 1120"/><path d="M210 740L512 920L935 1240"/>
+  </g>
+  <rect width="2400" height="1600" fill="url(#vignette)"/>
+  <defs>
+    <radialGradient id="vignette" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1200 650) scale(1250 800)">
+      <stop stop-color="#020715" stop-opacity="0"/>
+      <stop offset="0.72" stop-color="#020715" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#00030A" stop-opacity="0.86"/>
+    </radialGradient>
+  </defs>
+</svg>

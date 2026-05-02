@@ -1,0 +1,7 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#070708"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <text x="86" y="112" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">SAFESOUND</text>
+  <text x="86" y="176" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Emergency action surface</text>
+  <g transform="translate(460 145)"><rect width="280" height="520" rx="52" fill="#111112" stroke="white" stroke-opacity=".18"/><rect x="24" y="64" width="232" height="396" rx="32" fill="white" fill-opacity=".055"/><circle cx="140" cy="488" r="15" fill="white" fill-opacity=".14"/><circle cx="140" cy="245" r="94" fill="#D7D0BD" fill-opacity=".16" stroke="#D7D0BD" stroke-opacity=".35"/><text x="89" y="255" fill="#F2F1EC" font-family="Inter,Arial" font-size="34" font-weight="900">SOS</text><rect x="64" y="374" width="152" height="42" rx="21" fill="white" fill-opacity=".09"/><rect x="84" y="114" width="112" height="16" rx="8" fill="white" fill-opacity=".24"/></g>
+  <circle cx="420" cy="265" r="92" stroke="#D7D0BD" stroke-opacity=".26"/><circle cx="780" cy="485" r="120" stroke="#D7D0BD" stroke-opacity=".18"/>
+</svg>

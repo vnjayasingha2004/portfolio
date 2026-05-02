@@ -1,0 +1,10 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#080808"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <text x="80" y="105" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">LOCAL INVENTORY</text>
+  <text x="80" y="170" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Offline stock control</text>
+  <rect x="86" y="238" width="1028" height="420" rx="34" fill="white" fill-opacity=".045" stroke="white" stroke-opacity=".12"/>
+  <rect x="130" y="292" width="220" height="296" rx="26" fill="white" fill-opacity=".06"/><rect x="396" y="292" width="660" height="296" rx="26" fill="#050505" stroke="white" stroke-opacity=".1"/>
+  <text x="166" y="358" fill="#F2F1EC" font-family="Inter,Arial" font-size="32" font-weight="800">SQLite</text><text x="166" y="406" fill="white" fill-opacity=".52" font-family="monospace" font-size="18">local first</text>
+  <rect x="446" y="340" width="560" height="42" rx="13" fill="white" fill-opacity=".08"/><rect x="446" y="406" width="500" height="42" rx="13" fill="white" fill-opacity=".06"/><rect x="446" y="472" width="530" height="42" rx="13" fill="white" fill-opacity=".08"/>
+  <path d="M348 440H396" stroke="#D7D0BD" stroke-width="3" stroke-dasharray="10 12"/><circle cx="348" cy="440" r="8" fill="#D7D0BD"/><circle cx="396" cy="440" r="8" fill="#D7D0BD"/>
+</svg>

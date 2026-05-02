@@ -1,0 +1,10 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#080808"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <text x="86" y="112" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">BOOKING SYSTEM</text>
+  <text x="86" y="176" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Appointment pipeline</text>
+  <rect x="90" y="260" width="1020" height="360" rx="34" fill="white" fill-opacity=".045" stroke="white" stroke-opacity=".12"/>
+  <rect x="142" y="322" width="240" height="210" rx="26" fill="white" fill-opacity=".06"/><rect x="480" y="322" width="240" height="210" rx="26" fill="white" fill-opacity=".06"/><rect x="818" y="322" width="240" height="210" rx="26" fill="white" fill-opacity=".06"/>
+  <path d="M382 426H480M720 426H818" stroke="#D7D0BD" stroke-width="3" stroke-dasharray="12 14"/>
+  <text x="184" y="396" fill="#F2F1EC" font-family="Inter,Arial" font-size="32" font-weight="800">Find lawyer</text><text x="522" y="396" fill="#F2F1EC" font-family="Inter,Arial" font-size="32" font-weight="800">Book time</text><text x="860" y="396" fill="#F2F1EC" font-family="Inter,Arial" font-size="32" font-weight="800">Message</text>
+  <rect x="184" y="448" width="120" height="16" rx="8" fill="white" fill-opacity=".16"/><rect x="522" y="448" width="130" height="16" rx="8" fill="white" fill-opacity=".16"/><rect x="860" y="448" width="126" height="16" rx="8" fill="white" fill-opacity=".16"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="42" fill="#080808"/><rect x="1" y="1" width="1198" height="758" rx="41" stroke="white" stroke-opacity=".12"/>
+  <text x="82" y="110" fill="#D7D0BD" font-family="monospace" font-size="18" letter-spacing="5">APPROVAL FLOW</text>
+  <text x="82" y="174" fill="#F2F1EC" font-family="Inter,Arial" font-size="58" font-weight="800" letter-spacing="-3">Blind proposal review</text>
+  <g stroke="#D7D0BD" stroke-width="3" stroke-dasharray="14 16" stroke-linecap="round" opacity=".7"><path d="M274 388H474"/><path d="M674 388H874"/></g>
+  <g fill="white" fill-opacity=".055" stroke="white" stroke-opacity=".13"><rect x="82" y="282" width="230" height="212" rx="30"/><rect x="474" y="282" width="230" height="212" rx="30"/><rect x="866" y="282" width="230" height="212" rx="30"/></g>
+  <text x="128" y="354" fill="#F2F1EC" font-family="Inter,Arial" font-size="34" font-weight="800">Submit</text><text x="520" y="354" fill="#F2F1EC" font-family="Inter,Arial" font-size="34" font-weight="800">Review</text><text x="912" y="354" fill="#F2F1EC" font-family="Inter,Arial" font-size="34" font-weight="800">Approve</text>
+  <text x="128" y="404" fill="white" fill-opacity=".55" font-family="monospace" font-size="17">Student proposal</text><text x="520" y="404" fill="white" fill-opacity=".55" font-family="monospace" font-size="17">Supervisor + ML</text><text x="912" y="404" fill="white" fill-opacity=".55" font-family="monospace" font-size="17">Admin oversight</text>
+  <circle cx="312" cy="388" r="10" fill="#D7D0BD"/><circle cx="704" cy="388" r="10" fill="#D7D0BD"/><circle cx="866" cy="388" r="10" fill="#D7D0BD"/>
+</svg>
