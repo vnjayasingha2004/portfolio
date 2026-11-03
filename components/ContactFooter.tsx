@@ -4,7 +4,7 @@ import { KineticName } from "./KineticName";
 
 export function ContactFooter({ heading = "Have something worth building?" }: { heading?: string }) {
   return (
-    <footer className="contact" id="contact" data-theme="blue">
+    <footer className="contact" id="contact" data-theme="blue" data-bot-say="Say hi! Vinira replies fast.">
       <div className="contact-inner">
         <h2 className="contact-heading">{heading}</h2>
         <p className="contact-lede">

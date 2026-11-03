@@ -41,7 +41,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   return (
     <main id="main">
-      <section className="case-head" data-theme="blue">
+      <section className="case-head" data-theme="blue" data-bot-say={`This is ${project.title}. Scroll for the story!`}>
         <div className="shell">
           <nav className="crumbs" aria-label="Breadcrumb">
             <Link href="/projects">Work</Link>
@@ -125,7 +125,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      <section className="section case-build" data-theme="ink">
+      <section className="section case-build" data-theme="ink" data-bot-say="Here's how it was put together.">
         <div className="shell split">
           <h2 className="section-label">How it&apos;s built</h2>
           <div>
