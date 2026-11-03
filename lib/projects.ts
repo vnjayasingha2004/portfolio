@@ -42,12 +42,15 @@ export type Project = {
   highlights: string[];
   architecture: string[];
   images: ProjectImage[];
+  /** "web" for wide desktop screenshots, "phone" for tall mobile screenshots */
+  device: "web" | "phone";
   links: ProjectLink[];
 };
 
 export const projects: Project[] = [
   {
     slug: "sprintflow-ai",
+    device: "web",
     title: "SprintFlow AI",
     eyebrow: "AI-powered planning SaaS",
     type: "Full-stack SaaS",
@@ -103,6 +106,7 @@ export const projects: Project[] = [
   },
   {
     slug: "blindmatch-pas",
+    device: "web",
     title: "BlindMatch PAS",
     eyebrow: "Role-based academic workflow platform",
     type: "Enterprise-style web platform",
@@ -150,6 +154,7 @@ export const projects: Project[] = [
   },
   {
     slug: "lawpoint",
+    device: "phone",
     title: "LawPoint",
     eyebrow: "Legal services mobile platform",
     type: "Mobile product",
@@ -203,6 +208,7 @@ export const projects: Project[] = [
   },
   {
     slug: "safesound",
+    device: "phone",
     title: "SafeSound",
     eyebrow: "Safety-focused mobile experience",
     type: "Mobile app",
@@ -255,6 +261,7 @@ export const projects: Project[] = [
   },
   {
     slug: "offline-hardware-pos",
+    device: "web",
     title: "Offline Hardware POS + Inventory System",
     eyebrow: "Desktop app built for a real business",
     type: "Desktop product",
@@ -308,7 +315,7 @@ projects.forEach((project) => {
   });
 });
 
-export const globalStack: StackItem[] = Array.from(allStack.values()).slice(0, 22);
+export const globalStack: StackItem[] = Array.from(allStack.values());
 
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);

@@ -1,17 +1,14 @@
 import Link from "next/link";
-import { InteractiveBackground } from "@/components/InteractiveBackground";
+import { KineticName } from "@/components/KineticName";
 
 export default function NotFound() {
   return (
-    <>
-      <InteractiveBackground />
-      <main className="not-found-page">
-        <p className="section-kicker">404</p>
-        <h1>Project route not found.</h1>
-        <Link className="quiet-link light" href="/projects">
-          Back to projects
-        </Link>
-      </main>
-    </>
+    <main id="main" className="not-found" data-theme="blue">
+      <KineticName lines={["404"]} className="nf-title" />
+      <p>This page doesn&apos;t exist. It may have moved when the site was redesigned.</p>
+      <Link href="/" className="text-link">
+        Go to the homepage
+      </Link>
+    </main>
   );
 }
