@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // The mascot is Vinira's guide: it shows visitors around and talks about him.
 const tips = [
   "Try his name at the top. The letters stretch!",
-  "Keep scrolling, there's a 3D tour of his work.",
+  "Scroll through his selected work, it spins in 3D.",
   "Vinira is open to internships and junior roles.",
   "Every project opens into the full story of how he built it.",
   "Want to work with him? His email is at the bottom.",

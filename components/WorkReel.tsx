@@ -69,21 +69,25 @@ export function WorkReel({ projects }: { projects: Project[] }) {
     <section
       ref={ref}
       className="reel"
+      id="work"
       data-theme="ink"
       style={{ height: `${n * 85 + 70}vh` }}
-      data-bot-say="Here's a quick 3D tour of his work. Keep scrolling!"
-      aria-label="Project tour"
+      data-bot-say="Here's his selected work. Keep scrolling to spin through it!"
+      aria-label="Selected work"
     >
       <div className="reel-sticky">
         <div className="shell reel-head">
-          <h2 className="section-title">A quick tour</h2>
-          <div className="reel-meta" aria-hidden="true">
-            <p className="reel-count">
+          <h2 className="section-title">Selected work</h2>
+          <div className="reel-meta">
+            <p className="reel-count" aria-hidden="true">
               {active + 1} / {n}
             </p>
-            <div className="reel-progress">
+            <div className="reel-progress" aria-hidden="true">
               <motion.span style={{ scaleX: scrollYProgress }} />
             </div>
+            <Link href="/projects" className="text-link reel-all">
+              See all projects
+            </Link>
           </div>
         </div>
 

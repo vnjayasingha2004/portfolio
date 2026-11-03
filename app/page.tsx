@@ -8,7 +8,6 @@ import { RevealStatement } from "@/components/RevealStatement";
 import { StackMap } from "@/components/StackMap";
 import { VelocityMarquee } from "@/components/VelocityMarquee";
 import { WorkReel } from "@/components/WorkReel";
-import { WorkIndex } from "@/components/WorkIndex";
 import { profile } from "@/lib/profile";
 import { projects } from "@/lib/projects";
 
@@ -63,18 +62,6 @@ export default function Home() {
       </section>
 
       <WorkReel projects={projects} />
-
-      <section className="section work" id="work" data-theme="paper" data-bot-say="These are the projects he's built. Open one!">
-        <div className="shell">
-          <div className="section-head">
-            <h2 className="section-title">Selected work</h2>
-            <Link href="/projects" className="text-link">
-              See every project in detail
-            </Link>
-          </div>
-          <WorkIndex projects={projects} />
-        </div>
-      </section>
 
       <section className="section stack" id="stack" data-theme="ink" data-bot-say="His toolbox. Pick a tool to see where he used it.">
         <div className="shell">
