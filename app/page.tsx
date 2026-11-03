@@ -45,7 +45,7 @@ export default function Home() {
         </div>
       </HeroScene>
 
-      <section className="section about" id="about" data-theme="paper" data-bot-say="A little about Vinira.">
+      <section className="section about" id="about" data-theme="paper" data-bot-say="First, a little about Vinira.">
         <div className="shell about-grid">
           <h2 className="section-label">About</h2>
           <div>
@@ -64,7 +64,7 @@ export default function Home() {
 
       <WorkReel projects={projects} />
 
-      <section className="section work" id="work" data-theme="paper" data-bot-say="Hover a project to peek inside!">
+      <section className="section work" id="work" data-theme="paper" data-bot-say="These are the projects he's built. Open one!">
         <div className="shell">
           <div className="section-head">
             <h2 className="section-title">Selected work</h2>
@@ -76,13 +76,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section stack" id="stack" data-theme="ink" data-bot-say="Point at a tool. I'll show where it was used.">
+      <section className="section stack" id="stack" data-theme="ink" data-bot-say="His toolbox. Pick a tool to see where he used it.">
         <div className="shell">
           <div className="section-head">
             <h2 className="section-title">The stack, by layer</h2>
-            <p className="section-note">
-              The number next to each tool is how many of my projects use it.
-            </p>
           </div>
           <StackMap projects={projects} />
         </div>

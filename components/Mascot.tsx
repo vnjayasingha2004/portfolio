@@ -3,12 +3,13 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+// The mascot is Vinira's guide: it shows visitors around and talks about him.
 const tips = [
-  "Move over the name. The letters stretch!",
-  "Scroll on, there's a 3D tour of the projects.",
+  "Try his name at the top. The letters stretch!",
+  "Keep scrolling, there's a 3D tour of his work.",
   "Vinira is open to internships and junior roles.",
-  "Hover a project to peek at a screenshot.",
-  "Want to work together? The email is at the bottom.",
+  "Every project opens into the full story of how he built it.",
+  "Want to work with him? His email is at the bottom.",
   "Hehe, that tickles.",
 ];
 
@@ -19,9 +20,9 @@ const BASE_H = 16;
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
 
 /**
- * The site's companion. On the homepage it stands next to the name; once you scroll
+ * Vinira's guide. On the homepage it stands next to the name; once you scroll
  * past the hero it hops down to the corner and follows you through every page,
- * saying a line when you reach a section marked with data-bot-say.
+ * introducing each part of the site when you reach a section marked with data-bot-say.
  */
 export function Mascot() {
   const pathname = usePathname();
@@ -64,8 +65,14 @@ export function Mascot() {
         setShown(true);
         hop();
       }, 1500));
-      timers.push(window.setTimeout(() => say("Hello! Welcome to my portfolio 👋", 3900, true), 2100));
-      timers.push(window.setTimeout(() => say("Move your cursor around. I'll follow it!", 3400), 6100));
+      timers.push(window.setTimeout(() => say("Hello! Welcome to Vinira's portfolio 👋 I'm your guide.", 4200, true), 2100));
+      const coarse = matchMedia("(pointer: coarse)").matches;
+      timers.push(
+        window.setTimeout(
+          () => say(coarse ? "Tap anywhere and I'll look. Scroll and I'll show you around!" : "Move your cursor, I'll follow it. Scroll and I'll show you around!", 3600),
+          6200,
+        ),
+      );
     } else {
       quietUntil.current = performance.now() + 900;
       timers.push(window.setTimeout(() => {
@@ -110,26 +117,38 @@ export function Mascot() {
 
     const pos = { x: 0, y: 0, s: 1 };
     const look = { x: 0, y: 0, tx: 0, ty: 0 };
+    // Where the pointer is now, in viewport coordinates. Kept between events so the
+    // gaze is re-aimed every frame, including while the page or the mascot moves.
+    const pointer = { x: 0, y: 0, mouse: false, touchAt: -1e9 };
+    const coarse = matchMedia("(pointer: coarse)").matches;
     let unit = 10;
     let init = false;
     let mode: "spot" | "dock" | null = null;
     let flying = false;
-    let lastMove = 0;
     let frame = 0;
+    let lastScroll = window.scrollY;
+    let scrollVel = 0;
 
     const measure = () => {
       unit = parseFloat(getComputedStyle(root).fontSize) || 10;
     };
     measure();
 
-    const onMove = (e: PointerEvent) => {
-      const w = BASE_W * unit * pos.s;
-      const h = BASE_H * unit * pos.s;
-      const cx = pos.x + w / 2;
-      const cy = pos.y + h * 0.42;
-      look.tx = clamp((e.clientX - cx) / (window.innerWidth * 0.4), -1, 1);
-      look.ty = clamp((e.clientY - cy) / (window.innerHeight * 0.45), -1, 1);
-      lastMove = performance.now();
+    const onPointer = (e: PointerEvent) => {
+      pointer.x = e.clientX;
+      pointer.y = e.clientY;
+      if (e.pointerType === "mouse") pointer.mouse = true;
+      else pointer.touchAt = performance.now();
+    };
+    const onTouch = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (!t) return;
+      pointer.x = t.clientX;
+      pointer.y = t.clientY;
+      pointer.touchAt = performance.now();
+    };
+    const onLeave = (e: MouseEvent) => {
+      if (!e.relatedTarget) pointer.mouse = false;
     };
 
     const tick = (now: number) => {
@@ -177,12 +196,35 @@ export function Mascot() {
         root.classList.remove("is-flying");
       }
 
-      if (now - lastMove > 4500) {
+      // Scroll speed, used on touch screens to look the way the page is going
+      const y = window.scrollY;
+      scrollVel += (y - lastScroll - scrollVel) * 0.2;
+      lastScroll = y;
+
+      // Aim at the pointer: direction from the face to the pointer, full strength
+      // once it's more than about a head's width away.
+      const size = BASE_W * unit * pos.s;
+      const cx = pos.x + size / 2;
+      const cy = pos.y + BASE_H * unit * pos.s * 0.42;
+      const recentTouch = now - pointer.touchAt < 2600;
+
+      if (pointer.mouse || recentTouch) {
+        const dx = pointer.x - cx;
+        const dy = pointer.y - cy;
+        const d = Math.hypot(dx, dy);
+        const m = Math.min(1, d / Math.max(60, size * 0.9));
+        look.tx = d > 1 ? (dx / d) * m : 0;
+        look.ty = d > 1 ? (dy / d) * m : 0;
+      } else if (coarse && Math.abs(scrollVel) > 0.6) {
+        look.tx = Math.sin(now / 900) * 0.25;
+        look.ty = clamp(scrollVel / 14, -1, 1);
+      } else {
         const t = now / 1000;
         look.tx = Math.sin(t * 0.6) * 0.6;
         look.ty = Math.sin(t * 0.41 + 1) * 0.3;
       }
-      const lk = reduce ? 1 : 0.1;
+
+      const lk = reduce ? 1 : 0.16;
       look.x += (look.tx - look.x) * lk;
       look.y += (look.ty - look.y) * lk;
 
@@ -202,14 +244,20 @@ export function Mascot() {
     };
     if (!reduce) blinkTimer = window.setTimeout(blink, 3000);
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("pointerdown", onMove, { passive: true });
+    window.addEventListener("pointermove", onPointer, { passive: true });
+    window.addEventListener("pointerdown", onPointer, { passive: true });
+    window.addEventListener("touchstart", onTouch, { passive: true });
+    window.addEventListener("touchmove", onTouch, { passive: true });
+    document.addEventListener("mouseout", onLeave);
     window.addEventListener("resize", measure);
     return () => {
       cancelAnimationFrame(frame);
       window.clearTimeout(blinkTimer);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerdown", onMove);
+      window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("pointerdown", onPointer);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchmove", onTouch);
+      document.removeEventListener("mouseout", onLeave);
       window.removeEventListener("resize", measure);
     };
   }, []);
@@ -218,6 +266,7 @@ export function Mascot() {
     say(tips[tipIndex.current % tips.length], 3800, true);
     tipIndex.current += 1;
     hop();
+    navigator.vibrate?.(12);
     setHappy(true);
     window.setTimeout(() => setHappy(false), 1000);
   };
@@ -240,7 +289,7 @@ export function Mascot() {
         {message}
       </p>
       <div className="m-scale">
-        <button type="button" className="m-button" onClick={onClick} aria-label="Portfolio mascot. Press for a tip.">
+        <button type="button" className="m-button" onClick={onClick} aria-label="Your guide to Vinira's portfolio. Press for a tip.">
           <span className="m-hop">
             <span className="m-turn">
               <span className="m-antenna">

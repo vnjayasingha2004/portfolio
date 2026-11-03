@@ -71,7 +71,7 @@ export function WorkReel({ projects }: { projects: Project[] }) {
       className="reel"
       data-theme="ink"
       style={{ height: `${n * 85 + 70}vh` }}
-      data-bot-say="Here's a quick 3D tour. Keep scrolling!"
+      data-bot-say="Here's a quick 3D tour of his work. Keep scrolling!"
       aria-label="Project tour"
     >
       <div className="reel-sticky">

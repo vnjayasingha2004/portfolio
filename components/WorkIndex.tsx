@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import type { Project } from "@/lib/projects";
 
@@ -27,6 +27,22 @@ export function WorkIndex({ projects }: { projects: Project[] }) {
   const velocity = useMotionValue(0);
   const rotate = useSpring(useTransform(velocity, [-1600, 1600], [-9, 9]), { stiffness: 200, damping: 20 });
   const last = useRef({ x: 0, t: 0 });
+
+  // On touch screens there's no hover, so the row crossing the middle of the screen lights up.
+  useEffect(() => {
+    if (!matchMedia("(hover: none)").matches) return;
+    const rows = Array.from(listRef.current?.querySelectorAll<HTMLLIElement>(".work-list > li") ?? []);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(rows.indexOf(entry.target as HTMLLIElement));
+        });
+      },
+      { rootMargin: "-46% 0px -46% 0px" },
+    );
+    rows.forEach((row) => io.observe(row));
+    return () => io.disconnect();
+  }, []);
 
   const onMove = (e: React.PointerEvent) => {
     if (e.pointerType !== "mouse") return;

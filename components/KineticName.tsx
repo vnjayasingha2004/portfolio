@@ -16,6 +16,7 @@ const START = { w: 50, g: 120 };
 
 const easeOutExpo = (t: number) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 const clamp = (v: number) => Math.min(1, Math.max(0, v));
+const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
 /**
  * Display type built from Anybody's width + weight axes.
@@ -67,10 +68,49 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
       });
     };
 
+    // Touch screens have no hover, so a virtual pointer drives the letters there:
+    // a sweep once the name has unfolded, a ripple that runs with the scroll,
+    // and the finger itself while touching.
+    const coarse = matchMedia("(pointer: coarse)").matches;
+    let touchAt = -1e9;
+    let scrollAt = -1e9;
+    const sweepStart = start + introDone - 300;
+
+    const virtualPointer = (now: number, sigma: number) => {
+      if (now - touchAt < 900) return true;
+      let minX = Infinity;
+      let maxX = -Infinity;
+      let sumY = 0;
+      state.forEach((s) => {
+        minX = Math.min(minX, s.cx);
+        maxX = Math.max(maxX, s.cx);
+        sumY += s.cy;
+      });
+      const from = minX - sigma * 1.6;
+      const span = maxX - minX + sigma * 3.2;
+      pointer.y = sumY / state.length;
+
+      const sweep = (now - sweepStart) / 1500;
+      if (intro && sweep > 0 && sweep < 1) {
+        pointer.x = from + span * easeInOut(sweep);
+        return true;
+      }
+      if (now - scrollAt < 420) {
+        const r = root.getBoundingClientRect();
+        const p = clamp((window.innerHeight - r.top) / (window.innerHeight + r.height));
+        pointer.x = from + span * clamp((p - 0.35) / 0.6);
+        return true;
+      }
+      pointer.x = -1e5;
+      pointer.y = -1e5;
+      return false;
+    };
+
     const tick = (now: number) => {
       const t = now - start;
       const sigma = fontSize * 0.75;
       let moving = t < introDone;
+      if (coarse && virtualPointer(now, sigma)) moving = true;
 
       // Influence of the pointer on each letter
       const influence = state.map((s) => {
@@ -135,6 +175,18 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
       pointer.y = -1e5;
       wake();
     };
+    const onTouch = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      pointer.x = touch.clientX;
+      pointer.y = touch.clientY + window.scrollY;
+      touchAt = performance.now();
+      wake();
+    };
+    const onScroll = () => {
+      scrollAt = performance.now();
+      wake();
+    };
 
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
@@ -147,8 +199,14 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
     document.fonts?.ready.then(measure);
     wake();
 
-    window.addEventListener("pointermove", onMove, { passive: true });
-    document.addEventListener("pointerleave", onLeave);
+    if (coarse) {
+      window.addEventListener("touchstart", onTouch, { passive: true });
+      window.addEventListener("touchmove", onTouch, { passive: true });
+      window.addEventListener("scroll", onScroll, { passive: true });
+    } else {
+      window.addEventListener("pointermove", onMove, { passive: true });
+      document.addEventListener("pointerleave", onLeave);
+    }
     window.addEventListener("resize", scheduleMeasure);
 
     return () => {
@@ -157,6 +215,9 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
       io.disconnect();
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("touchmove", onTouch);
+      window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", scheduleMeasure);
     };
   }, [intro, lines]);

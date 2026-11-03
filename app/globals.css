@@ -512,7 +512,7 @@ a {
   margin: -0.75em 0 0 -0.675em;
   border-radius: 50%;
   background: var(--ink);
-  transform: translate(calc(var(--look-x) * 0.5em), calc(var(--look-y) * 0.55em));
+  transform: translate(calc(var(--look-x) * 0.62em), calc(var(--look-y) * 0.68em));
 }
 .m-eye i::after {
   content: "";
@@ -1054,7 +1054,6 @@ a {
   }
   .work-row {
     grid-template-columns: 1fr auto;
-    padding: 28px 0;
   }
   .work-type {
     grid-column: 1 / -1;
@@ -1084,11 +1083,18 @@ a {
   .work-thumb-phone img {
     aspect-ratio: 16 / 12;
   }
-  .work-list li.is-active .work-row {
-    color: inherit;
+  .work-row {
+    padding: 28px 14px;
   }
-  .work-list li.is-active .work-fill {
-    transform: scaleY(0);
+  .work-list li.is-active .work-title {
+    transform: none;
+  }
+  .work-thumb img {
+    transform: scale(1.08);
+    transition: transform 0.8s var(--ease-out);
+  }
+  .work-list li.is-active .work-thumb img {
+    transform: none;
   }
 }
 
@@ -1134,13 +1140,6 @@ a {
 .stack-layer button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
-}
-.stack-layer sup {
-  font-family: var(--body);
-  font-size: 0.5em;
-  font-weight: 600;
-  margin-left: 4px;
-  color: var(--on-ink-soft);
 }
 .stack-map.has-focus .stack-layer button {
   opacity: 0.35;
