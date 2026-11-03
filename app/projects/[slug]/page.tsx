@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CaseArchitecture, CaseStudySections } from "@/components/CaseStudySections";
-import { ContactPanel } from "@/components/ContactPanel";
-import { InteractiveBackground } from "@/components/InteractiveBackground";
-import { Nav } from "@/components/Nav";
-import { ProjectGallery } from "@/components/ProjectGallery";
-import { ProjectLaunchLink } from "@/components/ProjectLaunchLink";
-import { TechConstellation } from "@/components/TechConstellation";
+import { ContactFooter } from "@/components/ContactFooter";
+import { KineticName } from "@/components/KineticName";
+import { ProjectMedia } from "@/components/ProjectMedia";
+import { ScrollScale } from "@/components/ScrollScale";
 import { getNextProject, getProject, projects } from "@/lib/projects";
 
 type PageProps = {
@@ -23,7 +20,7 @@ export async function generateMetadata({ params }: PageProps) {
   if (!project) return { title: "Project not found" };
 
   return {
-    title: `${project.title} - Vinira Jayasingha`,
+    title: `${project.title} — Vinira Jayasingha`,
     description: project.short,
   };
 }
@@ -32,99 +29,149 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  const nextProject = getNextProject(slug);
+  const next = getNextProject(slug);
+
+  const story = [
+    { label: "The problem", text: project.problem },
+    { label: "How I approached it", text: project.approach },
+    { label: "What came out of it", text: project.result },
+  ];
+
+  const titleLines = project.title.length > 16 ? splitTitle(project.title) : [project.title];
 
   return (
-    <>
-      <InteractiveBackground density={34} />
-      <Nav />
-      <main>
-        <section className="case-hero section-shell">
-          <div className="case-breadcrumbs">
-            <Link href="/projects">Projects</Link>
-            <span>/</span>
-            <span>{project.title}</span>
+    <main id="main">
+      <section className="case-head" data-theme="blue">
+        <div className="shell">
+          <nav className="crumbs" aria-label="Breadcrumb">
+            <Link href="/projects">Work</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{project.title}</span>
+          </nav>
+
+          <KineticName lines={titleLines} className="case-title" />
+
+          <div className="case-intro">
+            <p className="case-summary">{project.summary}</p>
+            <dl className="case-spec">
+              <div>
+                <dt>Type</dt>
+                <dd>{project.type}</dd>
+              </div>
+              <div>
+                <dt>Year</dt>
+                <dd>{project.year}</dd>
+              </div>
+              <div>
+                <dt>My role</dt>
+                <dd>{project.role}</dd>
+              </div>
+              <div>
+                <dt>Source</dt>
+                <dd>
+                  {project.links.length ? (
+                    project.links.map((link) => (
+                      <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+                        {link.label}
+                      </a>
+                    ))
+                  ) : (
+                    <>Private client project</>
+                  )}
+                </dd>
+              </div>
+            </dl>
           </div>
-          <div className="case-hero-grid">
-            <div>
-              <p className="section-kicker">{project.eyebrow}</p>
-              <h1>{project.title}</h1>
-              <p>{project.summary}</p>
-              <div className="case-actions">
-                {project.links.length ? (
-                  project.links.map((link) => (
-                    <Link key={link.href} className="quiet-link light" href={link.href} target="_blank">
-                      {link.label}
-                    </Link>
-                  ))
-                ) : (
-                  <span className="private-pill">Private client project</span>
-                )}
-                <Link className="quiet-link" href="/projects">
-                  All projects
-                </Link>
-              </div>
-            </div>
-            <aside className="case-spec">
-              <div>
-                <span>Type</span>
-                <strong>{project.type}</strong>
-              </div>
-              <div>
-                <span>Year</span>
-                <strong>{project.year}</strong>
-              </div>
-              <div>
-                <span>Status</span>
-                <strong>{project.status}</strong>
-              </div>
-              <div>
-                <span>Role</span>
-                <strong>{project.role}</strong>
-              </div>
-            </aside>
+        </div>
+      </section>
+
+      <section className="case-hero-media" data-theme="paper">
+        <div className="shell">
+          <ScrollScale className={`case-frame frame-${project.device}`}>
+            <ProjectMedia project={project} images={project.device === "phone" ? project.images : project.images.slice(0, 1)} priority />
+          </ScrollScale>
+        </div>
+      </section>
+
+      <section className="section case-story" data-theme="paper">
+        <div className="shell story-grid">
+          {story.map((block) => (
+            <article key={block.label}>
+              <h2>{block.label}</h2>
+              <p>{block.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section case-features" data-theme="paper">
+        <div className="shell split">
+          <h2 className="section-label">What it does</h2>
+          <ul className="feature-list">
+            {project.highlights.map((highlight) => (
+              <li key={highlight}>{highlight}</li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {project.device === "web" && project.images.length > 1 && (
+        <section className="section case-gallery" data-theme="paper">
+          <div className="shell">
+            <ScrollScale className="case-frame frame-web">
+              <ProjectMedia project={project} images={project.images.slice(1)} />
+            </ScrollScale>
           </div>
         </section>
+      )}
 
-        <section className="case-visual section-shell">
-          <div className="case-device">
-            <img src={project.images[0]?.src} alt={project.images[0]?.alt ?? project.title} />
-          </div>
-          <div className="case-highlights">
-            <p className="section-kicker">Core features</p>
-            <h2>What the product does</h2>
-            <ul>
-              {project.highlights.map((highlight) => (
-                <li key={highlight}>{highlight}</li>
+      <section className="section case-build" data-theme="ink">
+        <div className="shell split">
+          <h2 className="section-label">How it&apos;s built</h2>
+          <div>
+            <ul className="build-notes">
+              {project.architecture.map((note) => (
+                <li key={note}>{note}</li>
               ))}
             </ul>
+            <dl className="stack-table">
+              {project.stack.map((item) => (
+                <div key={item.name}>
+                  <dt>{item.name}</dt>
+                  <dd>{item.note ?? item.group}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="section-shell project-constellation-section">
-          <TechConstellation
-            compact
-            items={project.stack}
-            title={`${project.title} stack connections`}
-            description="This is the route-specific animation idea: the stack appears as connected logos. Hover each logo to see whether it is frontend, backend, database, mobile, AI, security, desktop, or language work."
-          />
-        </section>
+      <section className="next-case" data-theme="paper">
+        <Link href={`/projects/${next.slug}`} className="next-link">
+          <span className="next-fill" aria-hidden="true" />
+          <span className="next-label">Next project</span>
+          <span className="next-title">{next.title}</span>
+          <span className="next-short">{next.short}</span>
+        </Link>
+      </section>
 
-        <CaseStudySections project={project} />
-        <ProjectGallery project={project} />
-        <CaseArchitecture project={project} />
-
-        <section className="next-project section-shell">
-          <div>
-            <p className="section-kicker">Next project</p>
-            <h2>{nextProject.title}</h2>
-            <p>{nextProject.short}</p>
-          </div>
-          <ProjectLaunchLink href={`/projects/${nextProject.slug}`}>Open next case study</ProjectLaunchLink>
-        </section>
-
-        <ContactPanel />
-      </main>
-    </>
+      <ContactFooter heading="Like what you see?" />
+    </main>
   );
+}
+
+function splitTitle(title: string) {
+  const words = title.split(" ");
+  const lines: string[] = [];
+  let line = "";
+  words.forEach((word) => {
+    if ((line + " " + word).trim().length > 16 && line) {
+      lines.push(line.trim());
+      line = word;
+    } else {
+      line = `${line} ${word}`;
+    }
+  });
+  if (line.trim()) lines.push(line.trim());
+  return lines;
 }

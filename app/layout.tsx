@@ -1,16 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import "@fontsource-variable/anybody/wdth.css";
+import "@fontsource-variable/schibsted-grotesk";
 import "./globals.css";
-import { GalaxyBackground } from "@/components/GalaxyBackground";
+import { Nav } from "@/components/Nav";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
-  title: "Vinira Jayasingha - Software Developer",
+  title: "Vinira Jayasingha — Software developer",
   description:
-    "Portfolio of Vinira Jayasingha: product-minded software developer building full-stack, mobile, desktop, and AI-powered applications.",
-  keywords: ["Vinira Jayasingha", "software developer", "portfolio", "Next.js", "Flutter", "ASP.NET Core"],
+    "Portfolio of Vinira Jayasingha, a software developer in Sri Lanka building full-stack, mobile, desktop and AI-powered products for real use.",
+  keywords: ["Vinira Jayasingha", "software developer", "portfolio", "Next.js", "Flutter", "ASP.NET Core", "Sri Lanka"],
   authors: [{ name: "Vinira Jayasingha" }],
   openGraph: {
-    title: "Vinira Jayasingha - Software Developer",
-    description: "Product-minded developer building real systems with clean design and useful motion.",
+    title: "Vinira Jayasingha — Software developer",
+    description: "Full-stack, mobile and desktop products, built for real use.",
     type: "website",
   },
 };
@@ -18,13 +21,20 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#050506",
+  themeColor: "#2734F5",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body><GalaxyBackground />{children}</body>
+      <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <SmoothScroll />
+        <Nav />
+        {children}
+      </body>
     </html>
   );
 }
