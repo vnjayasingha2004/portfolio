@@ -8,6 +8,7 @@ const tips = [
   "Try his name at the top. The letters stretch!",
   "Scroll through his selected work, it spins in 3D.",
   "Vinira is open to internships and junior roles.",
+  "His CV is one click away, top right!",
   "Every project opens into the full story of how he built it.",
   "Want to work with him? His email is at the bottom.",
   "Hehe, that tickles.",
@@ -33,6 +34,8 @@ export function Mascot() {
   const [hopping, setHopping] = useState(false);
   const [happy, setHappy] = useState(false);
   const [docked, setDocked] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const hiddenRef = useRef(false);
   const hideTimer = useRef(0);
   const quietUntil = useRef(0);
   const tipIndex = useRef(0);
@@ -43,7 +46,23 @@ export function Mascot() {
     window.setTimeout(() => setHopping(false), 750);
   }, []);
 
+  // Visitors can switch the guide off; remembered per browser
+  useEffect(() => {
+    const apply = (value: boolean) => {
+      hiddenRef.current = value;
+      setHidden(value);
+      if (value) setMessage(null);
+    };
+    try {
+      apply(localStorage.getItem("guide-hidden") === "1");
+    } catch {}
+    const onToggle = (e: Event) => apply((e as CustomEvent<{ hidden: boolean }>).detail.hidden);
+    window.addEventListener("guide:toggle", onToggle);
+    return () => window.removeEventListener("guide:toggle", onToggle);
+  }, []);
+
   const say = useCallback((text: string, ms = 4000, wave = false) => {
+    if (hiddenRef.current) return;
     setMessage(text);
     window.clearTimeout(hideTimer.current);
     hideTimer.current = window.setTimeout(() => setMessage(null), ms);
@@ -343,6 +362,7 @@ export function Mascot() {
     happy && "is-happy",
     docked && "is-docked",
     message && "is-talking",
+    hidden && "is-hidden",
   ]
     .filter(Boolean)
     .join(" ");

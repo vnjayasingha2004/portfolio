@@ -203,6 +203,31 @@ a {
     color 0.35s ease,
     transform 0.5s var(--ease-io);
 }
+/* Once the page has scrolled, the nav gets a soft backing in the colour of the
+   section under it, so content never runs through the links. */
+.site-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: var(--nav-bg, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  transition: opacity 0.35s ease;
+}
+.site-nav.is-scrolled::before {
+  opacity: 1;
+}
+.site-nav.on-blue {
+  --nav-bg: rgba(39, 52, 245, 0.82);
+}
+.site-nav.on-ink {
+  --nav-bg: rgba(5, 7, 31, 0.82);
+}
+.site-nav.on-paper {
+  --nav-bg: rgba(238, 240, 236, 0.86);
+}
 .site-nav.is-hidden {
   transform: translateY(-110%);
 }
@@ -214,10 +239,45 @@ a {
   color: var(--ink);
 }
 .nav-mark {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-variation-settings: "wdth" 130, "wght" 760;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   justify-self: start;
+  font-weight: 600;
+}
+.logo {
+  display: block;
+  height: 26px;
+  width: auto;
+  overflow: visible;
+}
+.nav-end {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+}
+.guide-toggle {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+.guide-toggle:hover {
+  opacity: 1;
+}
+.guide-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.contact-base-links {
+  display: inline-flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.mascot.is-hidden {
+  display: none;
 }
 .site-nav ul {
   display: flex;
@@ -230,8 +290,7 @@ a {
 .nav-cv {
   position: relative;
 }
-.site-nav nav a::after,
-.nav-cv::after {
+.site-nav nav a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -243,14 +302,11 @@ a {
   transform-origin: right;
   transition: transform 0.45s var(--ease-out);
 }
-.site-nav nav a:hover::after,
-.nav-cv:hover::after {
+.site-nav nav a:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
-.nav-cv {
-  justify-self: end;
-}
+
 
 /* ---------- Hero ---------- */
 .hero {
@@ -321,6 +377,115 @@ a {
 }
 .local-time {
   font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Calls to action ---------- */
+.cv-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 0 0 0 rgba(124, 242, 176, 0.55);
+  transition:
+    background 0.25s ease,
+    box-shadow 0.4s ease,
+    transform 0.25s ease;
+}
+.cv-btn-sm {
+  padding: 9px 14px 9px 16px;
+  font-size: var(--step--1);
+}
+.cv-btn-md {
+  padding: 15px 22px 15px 26px;
+  font-size: 1.05rem;
+}
+.cv-btn-lg {
+  padding: 22px 32px 22px 36px;
+  font-size: var(--step-1);
+}
+.cv-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+.cv-btn:hover {
+  background: #a3f8cb;
+  box-shadow: 0 0 0 8px rgba(124, 242, 176, 0.18);
+}
+.cv-btn:hover .cv-icon {
+  animation: cv-drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.cv-btn:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: 3px;
+}
+@keyframes cv-drop {
+  0% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+/* A soft pulse every few seconds on the main hero button, so it's noticed */
+.hero-actions .cv-btn {
+  animation: cv-pulse 3.6s ease-out 3.2s infinite;
+}
+@keyframes cv-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(124, 242, 176, 0.55);
+  }
+  45%,
+  100% {
+    box-shadow: 0 0 0 16px rgba(124, 242, 176, 0);
+  }
+}
+.site-nav.on-paper .cv-btn {
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 24px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(238, 240, 236, 0.55);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+.ghost-btn:hover {
+  background: rgba(238, 240, 236, 0.1);
+  border-color: var(--paper);
+}
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 26px;
+}
+.contact-cv {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 28px;
+  margin: 0 0 clamp(48px, 7vw, 88px);
+}
+.contact-cv p {
+  margin: 0;
+  max-width: 30ch;
+  color: var(--on-blue-soft);
 }
 
 /* ---------- Hero background ---------- */
@@ -1224,7 +1389,7 @@ a {
 }
 .contact-email {
   display: block;
-  margin: clamp(48px, 7vw, 96px) 0;
+  margin: clamp(48px, 7vw, 96px) 0 36px;
   padding: clamp(16px, 2vw, 28px) 0;
   border-top: 1px solid var(--line-light);
   border-bottom: 1px solid var(--line-light);
@@ -1689,8 +1854,13 @@ a {
     justify-content: center;
     gap: 14px;
   }
-  .site-nav nav li:nth-child(3) {
+  .site-nav nav li:nth-child(3),
+  .nav-name,
+  .nav-guide {
     display: none;
+  }
+  .logo {
+    height: 22px;
   }
   .hero-foot {
     grid-template-columns: 1fr;

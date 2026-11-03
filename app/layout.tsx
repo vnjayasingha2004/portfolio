@@ -8,6 +8,7 @@ import { PageCurtain } from "@/components/PageCurtain";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.vinirajayasingha.com"),
   title: "Vinira Jayasingha — Software developer",
   description:
     "Portfolio of Vinira Jayasingha, a software developer in Sri Lanka building full-stack, mobile, desktop and AI-powered products for real use.",
@@ -17,6 +18,13 @@ export const metadata: Metadata = {
     title: "Vinira Jayasingha — Software developer",
     description: "Full-stack, mobile and desktop products, built for real use.",
     type: "website",
+    url: "https://www.vinirajayasingha.com",
+    siteName: "Vinira Jayasingha",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vinira Jayasingha — Software developer",
+    description: "Full-stack, mobile and desktop products, built for real use.",
   },
 };
 

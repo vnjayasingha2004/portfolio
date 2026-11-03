@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { WorkButton } from "@/components/WorkButton";
+import { CvButton } from "@/components/CvButton";
 import { ContactFooter } from "@/components/ContactFooter";
 import { HeroScene } from "@/components/HeroScene";
 import { HeroVideo } from "@/components/HeroVideo";
@@ -29,10 +31,16 @@ export default function Home() {
         </div>
 
         <div className="hero-foot">
-          <p className="hero-lede">
-            Software developer building full-stack, mobile and desktop products, from AI planning tools to
-            a point-of-sale system running in a real hardware shop.
-          </p>
+          <div>
+            <p className="hero-lede">
+              Software developer building full-stack, mobile and desktop products, from AI planning tools to
+              a point-of-sale system running in a real hardware shop.
+            </p>
+            <div className="hero-actions">
+              <CvButton />
+              <WorkButton />
+            </div>
+          </div>
           <div className="hero-meta">
             <p>
               <span className="status-dot" aria-hidden="true" />
