@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ContactFooter } from "@/components/ContactFooter";
+import { HelloBot } from "@/components/HelloBot";
+import { HeroVideo } from "@/components/HeroVideo";
 import { KineticName } from "@/components/KineticName";
 import { LocalTime } from "@/components/LocalTime";
 import { RevealStatement } from "@/components/RevealStatement";
@@ -19,7 +21,11 @@ export default function Home() {
   return (
     <main id="main">
       <section className="hero" data-theme="blue">
-        <KineticName lines={["Vinira", "Jayasingha"]} className="hero-name" />
+        <HeroVideo />
+        <div className="hero-title">
+          <KineticName lines={["Vinira", "Jayasingha"]} className="hero-name" />
+          <HelloBot />
+        </div>
 
         <div className="hero-foot">
           <p className="hero-lede">
