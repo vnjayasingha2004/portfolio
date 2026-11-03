@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ContactFooter } from "@/components/ContactFooter";
-import { HelloBot } from "@/components/HelloBot";
+import { HeroScene } from "@/components/HeroScene";
 import { HeroVideo } from "@/components/HeroVideo";
 import { KineticName } from "@/components/KineticName";
 import { LocalTime } from "@/components/LocalTime";
 import { RevealStatement } from "@/components/RevealStatement";
 import { StackMap } from "@/components/StackMap";
+import { VelocityMarquee } from "@/components/VelocityMarquee";
+import { WorkReel } from "@/components/WorkReel";
 import { WorkIndex } from "@/components/WorkIndex";
 import { profile } from "@/lib/profile";
 import { projects } from "@/lib/projects";
@@ -20,11 +22,10 @@ const facts = [
 export default function Home() {
   return (
     <main id="main">
-      <section className="hero" data-theme="blue">
-        <HeroVideo />
+      <HeroScene background={<HeroVideo />}>
         <div className="hero-title">
           <KineticName lines={["Vinira", "Jayasingha"]} className="hero-name" />
-          <HelloBot />
+          <div className="mascot-spot" data-mascot-spot aria-hidden="true" />
         </div>
 
         <div className="hero-foot">
@@ -42,9 +43,9 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </section>
+      </HeroScene>
 
-      <section className="section about" id="about" data-theme="paper">
+      <section className="section about" id="about" data-theme="paper" data-bot-say="A little about Vinira.">
         <div className="shell about-grid">
           <h2 className="section-label">About</h2>
           <div>
@@ -61,7 +62,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section work" id="work" data-theme="paper">
+      <WorkReel projects={projects} />
+
+      <section className="section work" id="work" data-theme="paper" data-bot-say="Hover a project to peek inside!">
         <div className="shell">
           <div className="section-head">
             <h2 className="section-title">Selected work</h2>
@@ -73,7 +76,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section stack" id="stack" data-theme="ink">
+      <section className="section stack" id="stack" data-theme="ink" data-bot-say="Point at a tool. I'll show where it was used.">
         <div className="shell">
           <div className="section-head">
             <h2 className="section-title">The stack, by layer</h2>
@@ -84,6 +87,8 @@ export default function Home() {
           <StackMap projects={projects} />
         </div>
       </section>
+
+      <VelocityMarquee />
 
       <ContactFooter />
     </main>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/anybody/wdth.css";
 import "@fontsource-variable/schibsted-grotesk";
 import "./globals.css";
+import { Mascot } from "@/components/Mascot";
 import { Nav } from "@/components/Nav";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SmoothScroll />
         <Nav />
         {children}
+        <Mascot />
       </body>
     </html>
   );

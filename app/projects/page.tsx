@@ -13,7 +13,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <main id="main">
-      <section className="page-head" data-theme="blue">
+      <section className="page-head" data-theme="blue" data-bot-say="Every project, with the full story.">
         <div className="shell">
           <KineticName lines={["Work"]} className="page-title" />
           <p className="page-lede">
