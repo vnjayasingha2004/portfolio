@@ -1,5 +1,6 @@
 import { profile } from "@/lib/profile";
 import { MaskText } from "./MaskText";
+import { GuideToggle } from "./GuideToggle";
 import { LocalTime } from "./LocalTime";
 import { KineticName } from "./KineticName";
 
@@ -51,9 +52,12 @@ export function ContactFooter({ heading = "Have something worth building?" }: { 
 
         <div className="contact-base">
           <span>© {new Date().getFullYear()} {profile.name}</span>
-          <a href={profile.cv} target="_blank" rel="noreferrer">
-            Download CV (PDF)
-          </a>
+          <span className="contact-base-links">
+            <GuideToggle />
+            <a href={profile.cv} target="_blank" rel="noreferrer">
+              Download CV (PDF)
+            </a>
+          </span>
         </div>
       </div>
     </footer>

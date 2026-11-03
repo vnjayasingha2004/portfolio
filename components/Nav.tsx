@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profile } from "@/lib/profile";
+import { GuideToggle } from "./GuideToggle";
+import { Logo } from "./Logo";
 
 const links = [
   { href: "/#work", label: "Work" },
@@ -56,7 +58,8 @@ export function Nav() {
   return (
     <header className={`site-nav on-${theme}${hidden ? " is-hidden" : ""}`}>
       <Link href="/" className="nav-mark" aria-label={`${profile.name}, home`}>
-        Vinira J.
+        <Logo />
+        <span className="nav-name">Vinira Jayasingha</span>
       </Link>
       <nav aria-label="Primary">
         <ul>
@@ -67,9 +70,12 @@ export function Nav() {
           ))}
         </ul>
       </nav>
-      <a className="nav-cv" href={profile.cv} target="_blank" rel="noreferrer">
-        CV
-      </a>
+      <div className="nav-end">
+        <GuideToggle className="nav-guide" />
+        <a className="nav-cv" href={profile.cv} target="_blank" rel="noreferrer">
+          CV
+        </a>
+      </div>
     </header>
   );
 }

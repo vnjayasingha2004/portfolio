@@ -214,10 +214,45 @@ a {
   color: var(--ink);
 }
 .nav-mark {
-  font-family: var(--display);
-  font-size: 1.05rem;
-  font-variation-settings: "wdth" 130, "wght" 760;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   justify-self: start;
+  font-weight: 600;
+}
+.logo {
+  display: block;
+  height: 26px;
+  width: auto;
+  overflow: visible;
+}
+.nav-end {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 28px);
+}
+.guide-toggle {
+  all: unset;
+  cursor: pointer;
+  font: inherit;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+.guide-toggle:hover {
+  opacity: 1;
+}
+.guide-toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+.contact-base-links {
+  display: inline-flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.mascot.is-hidden {
+  display: none;
 }
 .site-nav ul {
   display: flex;
@@ -248,9 +283,7 @@ a {
   transform: scaleX(1);
   transform-origin: left;
 }
-.nav-cv {
-  justify-self: end;
-}
+
 
 /* ---------- Hero ---------- */
 .hero {
@@ -1689,8 +1722,13 @@ a {
     justify-content: center;
     gap: 14px;
   }
-  .site-nav nav li:nth-child(3) {
+  .site-nav nav li:nth-child(3),
+  .nav-name,
+  .nav-guide {
     display: none;
+  }
+  .logo {
+    height: 22px;
   }
   .hero-foot {
     grid-template-columns: 1fr;
