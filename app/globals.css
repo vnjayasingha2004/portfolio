@@ -719,140 +719,301 @@ a {
   bottom: calc(100% + 2px);
 }
 
-/* ---------- 3D project tour ---------- */
-.reel {
+/* Walking along the ground line in the work walk-through */
+.mascot {
+  --face: 1;
+}
+.mascot.is-facing-left {
+  --face: -1;
+}
+.mascot.is-walking .m-hop {
+  animation: m-walk-bob 0.34s ease-in-out infinite;
+}
+@keyframes m-walk-bob {
+  50% {
+    transform: translateY(-0.8em) rotate(calc(var(--face) * 4deg));
+  }
+}
+.mascot.is-walking .m-foot-l,
+.mascot.is-walking .m-foot-r {
+  animation: m-step 0.34s ease-in-out infinite;
+}
+.mascot.is-walking .m-foot-r {
+  animation-delay: -0.17s;
+}
+@keyframes m-step {
+  0%,
+  100% {
+    transform: translate(calc(var(--face) * -0.6em), 0);
+  }
+  50% {
+    transform: translate(calc(var(--face) * 0.6em), -0.7em);
+  }
+}
+.mascot.is-walking .m-arm-l {
+  animation: m-swing-l 0.34s ease-in-out infinite alternate;
+}
+.mascot.is-walking .m-arm-r {
+  animation: m-swing-r 0.34s ease-in-out infinite alternate;
+}
+@keyframes m-swing-l {
+  from {
+    transform: rotate(-40deg);
+  }
+  to {
+    transform: rotate(-8deg);
+  }
+}
+@keyframes m-swing-r {
+  from {
+    transform: rotate(8deg);
+  }
+  to {
+    transform: rotate(40deg);
+  }
+}
+.mascot.is-walking .m-shadow {
+  animation: m-walk-shadow 0.34s ease-in-out infinite;
+}
+@keyframes m-walk-shadow {
+  50% {
+    transform: scale(0.85);
+  }
+}
+
+/* Riding the page curtain up, then dropping back in */
+.mascot.is-riding {
+  z-index: 90;
+}
+.mascot.is-riding .m-scale {
+  animation: m-ride 1.5s both;
+}
+@keyframes m-ride {
+  0% {
+    translate: 0 0;
+    animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  55% {
+    translate: 0 -120vh;
+  }
+  56% {
+    translate: 0 -100vh;
+    animation-timing-function: cubic-bezier(0.3, 0.75, 0.4, 1);
+  }
+  86% {
+    translate: 0 0.8em;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+/* ---------- Selected work: guided walk-through ---------- */
+.walk {
   position: relative;
 }
-.reel-sticky {
+.walk-sticky {
+  --walk-s: 0.62;
+  --ground: calc(var(--mascot-u) * 16 * var(--walk-s) + 26px);
+  --pw: min(70vw, 1100px);
+  --gap: 9vw;
   position: sticky;
   top: 0;
   height: 100svh;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   overflow: hidden;
-  padding: clamp(88px, 11vh, 120px) 0 clamp(20px, 4vh, 40px);
+  padding-top: clamp(84px, 11vh, 120px);
 }
-.reel-head {
+.walk-head {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   gap: 24px;
 }
-.reel-head .section-title {
+.walk-head .section-title {
   font-size: var(--step-3);
 }
-.reel-count {
+.walk-meta {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+.walk-count {
   margin: 0;
   font-variant-numeric: tabular-nums;
   color: var(--on-ink-soft);
   font-weight: 600;
 }
-.reel-stage {
-  --reel-w: min(46vw, 560px);
-  --reel-r: calc(var(--reel-w) * 0.92);
-  position: relative;
-  display: grid;
-  place-items: center;
-  perspective: 1800px;
-  min-height: 0;
-}
-.reel-tilt,
-.reel-depth,
-.reel-ring {
-  transform-style: preserve-3d;
-}
-.reel-tilt {
-  width: var(--reel-w);
-  aspect-ratio: 16 / 10;
-}
-.reel-depth {
-  width: 100%;
-  height: 100%;
-  transform: translateZ(calc(var(--reel-r) * -1));
-}
-.reel-ring {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.reel-card {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-}
-.reel-frame {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 5%;
-  border-radius: 14px;
-  background: var(--blue);
-  overflow: hidden;
-  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.7);
-}
-.reel-card:nth-child(even) .reel-frame {
-  background: #1a1f52;
-}
-.reel-frame .media-web .screen {
-  border-radius: 8px;
-}
-.reel-frame .media-phones {
-  height: 100%;
-  grid-template-columns: repeat(2, auto);
-  align-items: start;
-  gap: 6%;
-}
-.reel-frame .phone {
-  width: auto;
-  height: 90%;
-  border-width: 4px;
-  border-radius: 16px;
-}
-.reel-frame .phone img {
-  width: auto;
-  height: 100%;
-}
-.reel-frame .phone:nth-child(2) {
-  transform: translateY(8%);
-}
-.reel-all {
-  margin-top: 6px;
-  font-size: var(--step--1);
-}
-.reel-caption {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 24px;
-  perspective: 800px;
-}
-.reel-caption-inner h3 {
-  font-family: var(--display);
-  font-size: var(--step-2);
-  font-variation-settings: "wdth" 90, "wght" 640;
-  margin: 0;
-  line-height: 1.05;
-}
-.reel-caption-inner p {
-  margin: 4px 0 12px;
-  color: var(--on-ink-soft);
-}
-.reel-meta {
-  display: grid;
-  justify-items: end;
-  gap: 10px;
-}
-.reel-progress {
+.walk-progress {
   width: min(200px, 30vw);
   height: 2px;
   background: var(--line-light);
 }
-.reel-progress span {
+.walk-progress span {
   display: block;
   height: 100%;
   background: var(--mint);
+  transform: scaleX(0);
   transform-origin: 0 50%;
+}
+.walk-all {
+  margin-top: 6px;
+  font-size: var(--step--1);
+}
+.walk-world {
+  position: relative;
+  min-height: 0;
+}
+.walk-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  gap: var(--gap);
+  padding: 4vh 0 var(--ground);
+  will-change: transform;
+}
+.walk-panel {
+  --d: 0;
+  position: relative;
+  flex: none;
+  width: var(--pw);
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  align-items: center;
+  opacity: calc(1 - var(--d) * 0.7);
+  transform: scale(calc(1 - var(--d) * 0.08));
+}
+.walk-frame {
+  align-self: stretch;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6%;
+  padding: 4.5%;
+  border-radius: 18px;
+  background: var(--blue);
+  overflow: hidden;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+}
+.walk-panel:nth-child(even) .walk-frame {
+  background: #1d2370;
+}
+.walk-frame-web {
+  align-self: center;
+  aspect-ratio: 16 / 11;
+  max-height: 100%;
+}
+.walk-frame-web img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.7);
+}
+.walk-frame-phone img {
+  height: 92%;
+  width: auto;
+  min-width: 0;
+  border: 5px solid var(--ink);
+  border-radius: 20px;
+}
+.walk-frame-phone img:nth-child(2) {
+  transform: translateY(5%);
+}
+.walk-type {
+  margin: 0 0 8px;
+  color: var(--on-ink-soft);
+  font-size: var(--step--1);
+}
+.walk-copy h3 {
+  font-family: var(--display);
+  font-size: var(--step-3);
+  font-variation-settings: "wdth" 80, "wght" 640;
+  line-height: 0.98;
+  margin: 0 0 16px;
+}
+.walk-copy > p:not(.walk-type) {
+  margin: 0 0 22px;
+  max-width: 34ch;
+  color: rgba(238, 240, 236, 0.82);
+  text-wrap: pretty;
+}
+.walk-ground {
+  position: absolute;
+  left: -60vw;
+  right: -60vw;
+  bottom: 20px;
+  border-top: 3px dashed rgba(238, 240, 236, 0.22);
+}
+.walk-flag {
+  position: absolute;
+  left: 14%;
+  bottom: calc(-1 * var(--ground) + 22px);
+  width: 3px;
+  height: 64px;
+  background: rgba(238, 240, 236, 0.5);
+  border-radius: 2px;
+  transform-origin: 50% 100%;
+  transform: scaleY(0.45);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.walk-flag i {
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 26px;
+  height: 18px;
+  background: var(--mint);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+  transform-origin: 0 50%;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+.walk-flag.is-reached {
+  transform: none;
+}
+.walk-flag.is-reached i {
+  opacity: 1;
+  animation: flag-wave 0.9s ease-in-out infinite alternate;
+}
+@keyframes flag-wave {
+  to {
+    transform: scaleX(0.75) skewY(-8deg);
+  }
+}
+.walk-spot {
+  position: absolute;
+  left: 50%;
+  bottom: calc(23px - 2.3em * var(--walk-s));
+  font-size: var(--mascot-u);
+  width: calc(14em * var(--walk-s));
+  height: calc(16em * var(--walk-s));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* ---------- Heading mask reveal ---------- */
+.mask-text {
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  padding-bottom: 0.06em;
+}
+.mask-inner {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.mask-text.is-in .mask-inner {
+  transform: none;
+}
+
+.magnetic {
+  display: inline-block;
 }
 
 /* ---------- Velocity marquee ---------- */
@@ -1115,6 +1276,10 @@ a {
   margin-top: clamp(64px, 10vw, 140px);
   font-size: var(--step--1);
   color: var(--on-blue-soft);
+}
+/* leave room for the guide docked in the corner */
+.contact-base {
+  padding-right: calc(var(--mascot-u) * 14 * 0.62 + 24px);
 }
 .contact-base a:hover {
   color: var(--paper);
@@ -1469,13 +1634,46 @@ a {
 }
 
 @media (max-width: 720px) {
-  .reel-stage {
-    --reel-w: 84vw;
-    --reel-r: calc(var(--reel-w) * 0.9);
+  .walk-sticky {
+    --walk-s: 0.85;
+    --pw: 84vw;
+    --gap: 14vw;
+    padding-top: 84px;
   }
-  .reel-caption {
-    flex-direction: column;
-    align-items: flex-start;
+  .walk-head .section-title {
+    font-size: 2.4rem;
+  }
+  .walk-panel {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: stretch;
+  }
+  .walk-copy h3 {
+    font-size: 1.9rem;
+    margin-bottom: 8px;
+  }
+  .walk-copy > p:not(.walk-type) {
+    display: none;
+  }
+  .walk-type {
+    margin-bottom: 4px;
+  }
+  .walk-sticky {
+    --ground: calc(var(--mascot-u) * 16 * var(--walk-s) + 64px);
+  }
+  .walk-flag {
+    left: auto;
+    right: 8%;
+  }
+  .walk-spot {
+    left: 22%;
+  }
+  .mascot.is-on-walk .m-bubble {
+    right: auto;
+    left: calc(100% - 1.4em * var(--s));
+    border-radius: 18px 18px 18px 4px;
+    transform-origin: 0 100%;
   }
   :root {
     --mascot-u: 6.4px;
@@ -1519,6 +1717,16 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .mask-inner {
+    transform: none !important;
+    transition: none;
+  }
+  .mascot.is-walking .m-hop,
+  .mascot.is-walking .m-foot-l,
+  .mascot.is-walking .m-foot-r,
+  .mascot.is-walking .m-arm-l,
+  .mascot.is-riding .m-scale,
+  .walk-flag.is-reached i,
   .m-hop,
   .mascot.is-hopping .m-hop,
   .m-antenna,

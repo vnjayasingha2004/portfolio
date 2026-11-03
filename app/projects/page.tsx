@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Magnetic } from "@/components/Magnetic";
 import { ContactFooter } from "@/components/ContactFooter";
 import { KineticName } from "@/components/KineticName";
 import { ProjectMedia } from "@/components/ProjectMedia";
@@ -45,9 +46,11 @@ export default function ProjectsPage() {
                     <li key={item.name}>{item.name}</li>
                   ))}
                 </ul>
-                <Link href={`/projects/${project.slug}`} className="text-link">
-                  Read the case study
-                </Link>
+                <Magnetic>
+                  <Link href={`/projects/${project.slug}`} className="text-link">
+                    Read the case study
+                  </Link>
+                </Magnetic>
               </div>
             </article>
           ))}

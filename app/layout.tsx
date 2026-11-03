@@ -4,6 +4,7 @@ import "@fontsource-variable/schibsted-grotesk";
 import "./globals.css";
 import { Mascot } from "@/components/Mascot";
 import { Nav } from "@/components/Nav";
+import { PageCurtain } from "@/components/PageCurtain";
 import { SmoothScroll } from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SmoothScroll />
         <Nav />
         {children}
+        <PageCurtain />
         <Mascot />
       </body>
     </html>
