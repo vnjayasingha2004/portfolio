@@ -8,6 +8,7 @@ const tips = [
   "Try his name at the top. The letters stretch!",
   "Scroll through his selected work, it spins in 3D.",
   "Vinira is open to internships and junior roles.",
+  "His CV is one click away, top right!",
   "Every project opens into the full story of how he built it.",
   "Want to work with him? His email is at the bottom.",
   "Hehe, that tickles.",

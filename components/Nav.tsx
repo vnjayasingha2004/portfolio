@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CvButton } from "./CvButton";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { profile } from "@/lib/profile";
@@ -93,9 +94,7 @@ export function Nav() {
       </nav>
       <div className="nav-end">
         <GuideToggle className="nav-guide" />
-        <a className="nav-cv" href={profile.cv} target="_blank" rel="noreferrer">
-          CV
-        </a>
+        <CvButton size="sm" label="CV" className="nav-cv-btn" />
       </div>
     </header>
   );

@@ -1,4 +1,5 @@
 import { profile } from "@/lib/profile";
+import { CvButton } from "./CvButton";
 import { MaskText } from "./MaskText";
 import { GuideToggle } from "./GuideToggle";
 import { LocalTime } from "./LocalTime";
@@ -6,7 +7,7 @@ import { KineticName } from "./KineticName";
 
 export function ContactFooter({ heading = "Have something worth building?" }: { heading?: string }) {
   return (
-    <footer className="contact" id="contact" data-theme="blue" data-bot-say="Like his work? Say hi, he replies fast!">
+    <footer className="contact" id="contact" data-theme="blue" data-bot-say="Like his work? Grab his CV or say hi!">
       <div className="contact-inner">
         <MaskText className="contact-heading">{heading}</MaskText>
         <p className="contact-lede">
@@ -18,6 +19,13 @@ export function ContactFooter({ heading = "Have something worth building?" }: { 
           <KineticName as="span" intro={false} lines={["Say hello"]} className="contact-kinetic" />
           <span className="contact-address">{profile.email}</span>
         </a>
+
+        <div className="contact-cv">
+          <CvButton size="lg" />
+          <p>
+            One page, PDF, 105 KB. Education, projects and the stack I work with.
+          </p>
+        </div>
 
         <dl className="contact-details">
           <div>
@@ -54,9 +62,6 @@ export function ContactFooter({ heading = "Have something worth building?" }: { 
           <span>© {new Date().getFullYear()} {profile.name}</span>
           <span className="contact-base-links">
             <GuideToggle />
-            <a href={profile.cv} target="_blank" rel="noreferrer">
-              Download CV (PDF)
-            </a>
           </span>
         </div>
       </div>
