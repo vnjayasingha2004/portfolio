@@ -1,4 +1,5 @@
 import { profile } from "@/lib/profile";
+import { MaskText } from "./MaskText";
 import { LocalTime } from "./LocalTime";
 import { KineticName } from "./KineticName";
 
@@ -6,7 +7,7 @@ export function ContactFooter({ heading = "Have something worth building?" }: { 
   return (
     <footer className="contact" id="contact" data-theme="blue" data-bot-say="Like his work? Say hi, he replies fast!">
       <div className="contact-inner">
-        <h2 className="contact-heading">{heading}</h2>
+        <MaskText className="contact-heading">{heading}</MaskText>
         <p className="contact-lede">
           I&apos;m open to internships, junior developer roles and freelance product work. Email is the
           fastest way to reach me.

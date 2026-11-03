@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MaskText } from "@/components/MaskText";
 import { notFound } from "next/navigation";
 import { ContactFooter } from "@/components/ContactFooter";
 import { KineticName } from "@/components/KineticName";
@@ -97,7 +98,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         <div className="shell story-grid">
           {story.map((block) => (
             <article key={block.label}>
-              <h2>{block.label}</h2>
+              <MaskText as="h2">{block.label}</MaskText>
               <p>{block.text}</p>
             </article>
           ))}
@@ -106,7 +107,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       <section className="section case-features" data-theme="paper">
         <div className="shell split">
-          <h2 className="section-label">What it does</h2>
+          <MaskText className="section-label">What it does</MaskText>
           <ul className="feature-list">
             {project.highlights.map((highlight) => (
               <li key={highlight}>{highlight}</li>
@@ -127,7 +128,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
       <section className="section case-build" data-theme="ink" data-bot-say="Here's how he built it.">
         <div className="shell split">
-          <h2 className="section-label">How it&apos;s built</h2>
+          <MaskText className="section-label">How it&apos;s built</MaskText>
           <div>
             <ul className="build-notes">
               {project.architecture.map((note) => (

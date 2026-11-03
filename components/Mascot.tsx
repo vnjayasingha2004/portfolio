@@ -83,6 +83,50 @@ export function Mascot() {
     return () => timers.forEach(window.clearTimeout);
   }, [pathname, hop, say]);
 
+  // Lines sent by other parts of the page (the work walk-through), and riding
+  // the curtain up and dropping back in on page changes.
+  useEffect(() => {
+    const onSay = (e: Event) => {
+      const detail = (e as CustomEvent<{ text: string; wave?: boolean }>).detail;
+      if (!detail?.text) return;
+      say(detail.text, 4200, detail.wave);
+      hop();
+    };
+    let rideTimer = 0;
+    const onCurtain = () => {
+      const root = rootRef.current;
+      if (!root) return;
+      root.classList.remove("is-riding");
+      void root.offsetWidth;
+      root.classList.add("is-riding");
+      window.clearTimeout(rideTimer);
+      rideTimer = window.setTimeout(() => root.classList.remove("is-riding"), 1600);
+    };
+    window.addEventListener("guide:say", onSay);
+    window.addEventListener("guide:curtain", onCurtain);
+    return () => {
+      window.clearTimeout(rideTimer);
+      window.removeEventListener("guide:say", onSay);
+      window.removeEventListener("guide:curtain", onCurtain);
+    };
+  }, [say, hop]);
+
+  // A goodbye once the visitor reaches the very bottom of a page
+  useEffect(() => {
+    let done = false;
+    const onScroll = () => {
+      if (done) return;
+      const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 6;
+      if (bottom && performance.now() > quietUntil.current) {
+        done = true;
+        say("Thanks for visiting! See you soon 👋", 4500, true);
+        hop();
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pathname, say, hop]);
+
   // A line for each section, once per visit to a page
   useEffect(() => {
     const said = new Set<Element>();
@@ -123,7 +167,7 @@ export function Mascot() {
     const coarse = matchMedia("(pointer: coarse)").matches;
     let unit = 10;
     let init = false;
-    let mode: "spot" | "dock" | null = null;
+    let mode: "spot" | "walk" | "dock" | null = null;
     let flying = false;
     let frame = 0;
     let lastScroll = window.scrollY;
@@ -152,25 +196,36 @@ export function Mascot() {
     };
 
     const tick = (now: number) => {
-      const spot = document.querySelector<HTMLElement>("[data-mascot-spot]");
-      const r = spot?.getBoundingClientRect();
-      const inSpot = !!r && r.bottom > 90 && r.top < window.innerHeight - 60;
+      // Where to stand: next to the name in the hero, on the ground line while the
+      // work walk-through is pinned, otherwise docked in the corner.
+      const heroSpot = document.querySelector<HTMLElement>("[data-mascot-spot]");
+      const walkSpot = document.querySelector<HTMLElement>("[data-mascot-walk]");
+      const hr = heroSpot?.getBoundingClientRect();
+      const wr = walkSpot?.getBoundingClientRect();
       const narrow = window.innerWidth < 720;
+      const full = BASE_W * unit;
 
+      let nextMode: "spot" | "walk" | "dock";
       let tx: number;
       let ty: number;
       let ts: number;
-      if (inSpot && r) {
-        tx = r.left;
-        ty = r.top;
-        ts = 1;
+      if (hr && hr.bottom > 90 && hr.top < window.innerHeight - 60) {
+        nextMode = "spot";
+        tx = hr.left;
+        ty = hr.top;
+        ts = hr.width / full;
+      } else if (wr && wr.width > 0 && wr.top >= -2 && wr.bottom <= window.innerHeight + 2) {
+        nextMode = "walk";
+        tx = wr.left;
+        ty = wr.top;
+        ts = wr.width / full;
       } else {
+        nextMode = "dock";
         ts = narrow ? 0.62 : 0.5;
-        tx = window.innerWidth - BASE_W * unit * ts - (narrow ? 8 : 18);
+        tx = window.innerWidth - full * ts - (narrow ? 8 : 18);
         ty = window.innerHeight - BASE_H * unit * ts - (narrow ? 6 : 12);
       }
 
-      const nextMode = inSpot ? "spot" : "dock";
       if (nextMode !== mode) {
         if (mode !== null && !reduce) {
           flying = true;
@@ -179,6 +234,12 @@ export function Mascot() {
         mode = nextMode;
         setDocked(nextMode === "dock");
       }
+
+      const walking = mode === "walk" && walkSpot?.dataset.walking === "true" && !flying;
+      const facing = walkSpot?.dataset.facing === "-1" ? -1 : 1;
+      root.classList.toggle("is-walking", walking);
+      root.classList.toggle("is-on-walk", mode === "walk");
+      root.classList.toggle("is-facing-left", mode === "walk" && facing === -1);
 
       if (!init) {
         pos.x = tx;
@@ -208,7 +269,10 @@ export function Mascot() {
       const cy = pos.y + BASE_H * unit * pos.s * 0.42;
       const recentTouch = now - pointer.touchAt < 2600;
 
-      if (pointer.mouse || recentTouch) {
+      if (walking) {
+        look.tx = facing * 0.9;
+        look.ty = 0.12;
+      } else if (pointer.mouse || recentTouch) {
         const dx = pointer.x - cx;
         const dy = pointer.y - cy;
         const d = Math.hypot(dx, dy);

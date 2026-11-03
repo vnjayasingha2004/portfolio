@@ -7,7 +7,8 @@ import { LocalTime } from "@/components/LocalTime";
 import { RevealStatement } from "@/components/RevealStatement";
 import { StackMap } from "@/components/StackMap";
 import { VelocityMarquee } from "@/components/VelocityMarquee";
-import { WorkReel } from "@/components/WorkReel";
+import { WalkThrough } from "@/components/WalkThrough";
+import { MaskText } from "@/components/MaskText";
 import { profile } from "@/lib/profile";
 import { projects } from "@/lib/projects";
 
@@ -46,7 +47,7 @@ export default function Home() {
 
       <section className="section about" id="about" data-theme="paper" data-bot-say="First, a little about Vinira.">
         <div className="shell about-grid">
-          <h2 className="section-label">About</h2>
+          <MaskText className="section-label">About</MaskText>
           <div>
             <RevealStatement text="I care about the part of software people actually touch. I take a product from a rough idea to something that runs: the data model, the auth rules, the screens and the small details that make it feel finished. I've built for students, lawyers, shop owners and anyone who needs help fast." />
             <dl className="facts">
@@ -61,12 +62,12 @@ export default function Home() {
         </div>
       </section>
 
-      <WorkReel projects={projects} />
+      <WalkThrough projects={projects} />
 
       <section className="section stack" id="stack" data-theme="ink" data-bot-say="His toolbox. Pick a tool to see where he used it.">
         <div className="shell">
           <div className="section-head">
-            <h2 className="section-title">The stack, by layer</h2>
+            <MaskText className="section-title">The stack, by layer</MaskText>
           </div>
           <StackMap projects={projects} />
         </div>
