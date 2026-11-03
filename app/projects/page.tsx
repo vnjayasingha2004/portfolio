@@ -1,36 +1,63 @@
 import Link from "next/link";
-import { ContactPanel } from "@/components/ContactPanel";
-import { InteractiveBackground } from "@/components/InteractiveBackground";
-import { Nav } from "@/components/Nav";
-import { ProjectRail } from "@/components/ProjectRail";
+import { Magnetic } from "@/components/Magnetic";
+import { ContactFooter } from "@/components/ContactFooter";
+import { KineticName } from "@/components/KineticName";
+import { ProjectMedia } from "@/components/ProjectMedia";
+import { ScrollScale } from "@/components/ScrollScale";
 import { projects } from "@/lib/projects";
 
 export const metadata = {
-  title: "Projects - Vinira Jayasingha",
-  description: "Selected projects by Vinira Jayasingha with product context, technology stack, and case study pages.",
+  title: "Work — Vinira Jayasingha",
+  description: "Projects by Vinira Jayasingha with product context, screenshots, tech stack and case studies.",
 };
 
 export default function ProjectsPage() {
   return (
-    <>
-      <InteractiveBackground density={42} />
-      <Nav />
-      <main>
-        <section className="projects-hero section-shell">
-          <Link href="/" className="text-link muted-back">
-            Back home
-          </Link>
-          <p className="section-kicker">Projects</p>
-          <h1>Systems I can explain from product idea to implementation.</h1>
-          <p>
-            Each project opens into a case study page with screenshots, repository links, product notes, and a live constellation of the stack used to build it.
+    <main id="main">
+      <section className="page-head" data-theme="blue" data-bot-say="Here's everything Vinira has built.">
+        <div className="shell">
+          <KineticName lines={["Work"]} className="page-title" />
+          <p className="page-lede">
+            {projects.length} products, each with the problem it solves, how I built it and the stack
+            behind it.
           </p>
-        </section>
-        <section className="section-shell">
-          <ProjectRail projects={projects} large />
-        </section>
-        <ContactPanel />
-      </main>
-    </>
+        </div>
+      </section>
+
+      <section className="section showcase" data-theme="paper">
+        <div className="shell">
+          {projects.map((project, index) => (
+            <article className={`showcase-item${index % 2 ? " is-flipped" : ""}`} key={project.slug}>
+              <Link href={`/projects/${project.slug}`} className="showcase-media" tabIndex={-1} aria-hidden="true">
+                <ScrollScale className={`showcase-frame frame-${project.device}`}>
+                  <ProjectMedia project={project} images={project.device === "phone" ? project.images : project.images.slice(0, 1)} />
+                </ScrollScale>
+              </Link>
+              <div className="showcase-copy">
+                <p className="showcase-meta">
+                  {project.type}, {project.year}
+                </p>
+                <h2>
+                  <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                </h2>
+                <p>{project.short}</p>
+                <ul className="tag-list" aria-label="Tech stack">
+                  {project.stack.slice(0, 5).map((item) => (
+                    <li key={item.name}>{item.name}</li>
+                  ))}
+                </ul>
+                <Magnetic>
+                  <Link href={`/projects/${project.slug}`} className="text-link">
+                    Read the case study
+                  </Link>
+                </Magnetic>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <ContactFooter />
+    </main>
   );
 }

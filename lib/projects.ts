@@ -42,12 +42,18 @@ export type Project = {
   highlights: string[];
   architecture: string[];
   images: ProjectImage[];
+  /** What the guide says when it reaches this project in the walk-through */
+  guide: string;
+  /** "web" for wide desktop screenshots, "phone" for tall mobile screenshots */
+  device: "web" | "phone";
   links: ProjectLink[];
 };
 
 export const projects: Project[] = [
   {
     slug: "sprintflow-ai",
+    guide: "This is SprintFlow AI. It turns a messy idea into a full project plan.",
+    device: "web",
     title: "SprintFlow AI",
     eyebrow: "AI-powered planning SaaS",
     type: "Full-stack SaaS",
@@ -103,6 +109,8 @@ export const projects: Project[] = [
   },
   {
     slug: "blindmatch-pas",
+    guide: "BlindMatch PAS runs blind project approvals for students and supervisors.",
+    device: "web",
     title: "BlindMatch PAS",
     eyebrow: "Role-based academic workflow platform",
     type: "Enterprise-style web platform",
@@ -150,6 +158,8 @@ export const projects: Project[] = [
   },
   {
     slug: "lawpoint",
+    guide: "LawPoint helps people find a verified lawyer and book an appointment.",
+    device: "phone",
     title: "LawPoint",
     eyebrow: "Legal services mobile platform",
     type: "Mobile product",
@@ -203,6 +213,8 @@ export const projects: Project[] = [
   },
   {
     slug: "safesound",
+    guide: "SafeSound is a safety app. He kept it calm and fast for stressful moments.",
+    device: "phone",
     title: "SafeSound",
     eyebrow: "Safety-focused mobile experience",
     type: "Mobile app",
@@ -255,6 +267,8 @@ export const projects: Project[] = [
   },
   {
     slug: "offline-hardware-pos",
+    guide: "This one runs in a real hardware shop, even when the internet is down!",
+    device: "web",
     title: "Offline Hardware POS + Inventory System",
     eyebrow: "Desktop app built for a real business",
     type: "Desktop product",
@@ -308,7 +322,7 @@ projects.forEach((project) => {
   });
 });
 
-export const globalStack: StackItem[] = Array.from(allStack.values()).slice(0, 22);
+export const globalStack: StackItem[] = Array.from(allStack.values());
 
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
