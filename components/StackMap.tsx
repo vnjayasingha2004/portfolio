@@ -70,7 +70,6 @@ export function StackMap({ projects }: { projects: Project[] }) {
                       onClick={() => setPinned(pinned?.name === tool.name ? null : tool)}
                     >
                       {tool.name}
-                      <sup>{tool.projects.length}</sup>
                     </button>
                   </li>
                 );
@@ -89,7 +88,7 @@ export function StackMap({ projects }: { projects: Project[] }) {
               {current.projects.length === 1 ? "project" : "projects"}.
             </>
           ) : (
-            "Point at a tool to see where I used it."
+            "Point at or tap a tool to see where I used it."
           )}
         </p>
         <ul>
