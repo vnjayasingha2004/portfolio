@@ -42,7 +42,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
 
   return (
     <main id="main">
-      <section className="case-head" data-theme="blue" data-bot-say={`This is ${project.title}. Let me walk you through it!`}>
+      <section className="case-head" data-theme="space" data-bot-say={`This is ${project.title}. Let me walk you through it!`}>
         <div className="shell">
           <nav className="crumbs" aria-label="Breadcrumb">
             <Link href="/projects">Work</Link>
@@ -86,7 +86,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="case-hero-media" data-theme="paper">
+      <section className="case-hero-media" data-theme="space">
         <div className="shell">
           <ScrollScale className={`case-frame frame-${project.device}`}>
             <ProjectMedia project={project} images={project.device === "phone" ? project.images : project.images.slice(0, 1)} priority />
@@ -94,7 +94,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="section case-story" data-theme="paper">
+      <section className="section case-story" data-theme="space">
         <div className="shell story-grid">
           {story.map((block) => (
             <article key={block.label}>
@@ -105,7 +105,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="section case-features" data-theme="paper">
+      <section className="section case-features" data-theme="space">
         <div className="shell split">
           <MaskText className="section-label">What it does</MaskText>
           <ul className="feature-list">
@@ -117,7 +117,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
       </section>
 
       {project.device === "web" && project.images.length > 1 && (
-        <section className="section case-gallery" data-theme="paper">
+        <section className="section case-gallery" data-theme="space">
           <div className="shell">
             <ScrollScale className="case-frame frame-web">
               <ProjectMedia project={project} images={project.images.slice(1)} />
@@ -126,7 +126,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </section>
       )}
 
-      <section className="section case-build" data-theme="ink" data-bot-say="Here's how he built it.">
+      <section className="section case-build" data-theme="space" data-bot-say="Here's how he built it.">
         <div className="shell split">
           <MaskText className="section-label">How it&apos;s built</MaskText>
           <div>
@@ -147,7 +147,7 @@ export default async function ProjectDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      <section className="next-case" data-theme="paper">
+      <section className="next-case" data-theme="space">
         <Link href={`/projects/${next.slug}`} className="next-link">
           <span className="next-fill" aria-hidden="true" />
           <span className="next-label">Next project</span>

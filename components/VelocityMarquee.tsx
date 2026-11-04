@@ -65,7 +65,7 @@ function Row({ words, speed, outline = false }: { words: string[]; speed: number
 /** Two bands of words that drift on their own and race and lean with your scroll speed. */
 export function VelocityMarquee() {
   return (
-    <section className="marquee" data-theme="paper" aria-label="What I build">
+    <section className="marquee" data-theme="space" aria-label="What I build">
       <p className="sr-only">Full-stack web apps, mobile apps, desktop software and AI tools, built for real use.</p>
       <div aria-hidden="true">
         <Row words={["Full-stack web", "Mobile apps", "Desktop software", "AI tools"]} speed={-2.2} />

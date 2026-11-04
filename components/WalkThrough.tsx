@@ -121,7 +121,7 @@ export function WalkThrough({ projects }: { projects: Project[] }) {
       ref={sectionRef}
       className="walk"
       id="work"
-      data-theme="ink"
+      data-theme="space"
       aria-label="Selected work"
       style={{ height: `calc(100vh + ${Math.round(total * VH_PER_UNIT)}vh)` }}
     >

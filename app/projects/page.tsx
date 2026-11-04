@@ -14,7 +14,7 @@ export const metadata = {
 export default function ProjectsPage() {
   return (
     <main id="main">
-      <section className="page-head" data-theme="blue" data-bot-say="Here's everything Vinira has built.">
+      <section className="page-head" data-theme="space" data-bot-say="Here's everything Vinira has built.">
         <div className="shell">
           <KineticName lines={["Work"]} className="page-title" />
           <p className="page-lede">
@@ -24,7 +24,7 @@ export default function ProjectsPage() {
         </div>
       </section>
 
-      <section className="section showcase" data-theme="paper">
+      <section className="section showcase" data-theme="space">
         <div className="shell">
           {projects.map((project, index) => (
             <article className={`showcase-item${index % 2 ? " is-flipped" : ""}`} key={project.slug}>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/anybody/wdth.css";
 import "@fontsource-variable/schibsted-grotesk";
 import "./globals.css";
+import { GalaxyBackground } from "@/components/GalaxyBackground";
 import { Mascot } from "@/components/Mascot";
 import { Nav } from "@/components/Nav";
 import { PageCurtain } from "@/components/PageCurtain";
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#2734F5",
+  themeColor: "#04050D",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a className="skip-link" href="#main">
           Skip to content
         </a>
+        <GalaxyBackground />
         <SmoothScroll />
         <Nav />
         {children}

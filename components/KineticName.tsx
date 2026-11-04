@@ -8,6 +8,8 @@ type Props = {
   /** Run the unfold-on-load sequence */
   intro?: boolean;
   as?: "h1" | "p" | "span";
+  /** Hold the unfold until the homepage opening scene has finished */
+  waitForIntro?: boolean;
 };
 
 const REST = { w: 96, g: 520 };
@@ -22,7 +24,7 @@ const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2,
  * Display type built from Anybody's width + weight axes.
  * Letters near the pointer stretch wide and heavy; on load they unfold from condensed.
  */
-export function KineticName({ lines, className = "", intro = true, as = "h1" }: Props) {
+export function KineticName({ lines, className = "", intro = true, as = "h1", waitForIntro = false }: Props) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -56,7 +58,8 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
     let visible = true;
     let running = false;
     let frame = 0;
-    const start = performance.now();
+    let start = performance.now();
+    let gated = intro && waitForIntro && window.__introDone !== true;
     const introDone = intro ? 260 + letters.length * 55 + 1100 : 0;
 
     const measure = () => {
@@ -74,7 +77,7 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
     const coarse = matchMedia("(pointer: coarse)").matches;
     let touchAt = -1e9;
     let scrollAt = -1e9;
-    const sweepStart = start + introDone - 300;
+    let sweepStart = start + introDone - 300;
 
     const virtualPointer = (now: number, sigma: number) => {
       if (now - touchAt < 900) return true;
@@ -154,7 +157,7 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
     };
 
     const wake = () => {
-      if (running || !visible) return;
+      if (gated || running || !visible) return;
       running = true;
       frame = requestAnimationFrame(tick);
     };
@@ -188,6 +191,16 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
       wake();
     };
 
+    const onIntroDone = () => {
+      if (!gated) return;
+      gated = false;
+      start = performance.now();
+      sweepStart = start + introDone - 300;
+      measure();
+      wake();
+    };
+    window.addEventListener("intro:done", onIntroDone);
+
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
       if (visible) wake();
@@ -219,8 +232,9 @@ export function KineticName({ lines, className = "", intro = true, as = "h1" }: 
       window.removeEventListener("touchmove", onTouch);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", scheduleMeasure);
+      window.removeEventListener("intro:done", onIntroDone);
     };
-  }, [intro, lines]);
+  }, [intro, lines, waitForIntro]);
 
   const Tag = as;
   return (

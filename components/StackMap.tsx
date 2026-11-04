@@ -6,11 +6,27 @@ import type { Project, StackGroup } from "@/lib/projects";
 
 type Tool = { name: string; note?: string; projects: string[] };
 
-const layers: { title: string; groups: StackGroup[] }[] = [
-  { title: "Interface", groups: ["Frontend"] },
-  { title: "Server & data", groups: ["Backend", "Database"] },
-  { title: "Mobile & desktop", groups: ["Mobile", "Desktop"] },
-  { title: "AI, security & languages", groups: ["AI", "Security", "Language"] },
+const layers: { title: string; text: string; groups: StackGroup[] }[] = [
+  {
+    title: "Frontend",
+    text: "Responsive interfaces in React and Next.js, styled with Tailwind and plain CSS, with motion where it helps.",
+    groups: ["Frontend"],
+  },
+  {
+    title: "Backend & data",
+    text: "APIs, sign-in and relational data with ASP.NET Core, Supabase and Firebase, on PostgreSQL, SQL Server or SQLite.",
+    groups: ["Backend", "Database"],
+  },
+  {
+    title: "Mobile & desktop",
+    text: "Cross-platform mobile apps in Flutter, and offline desktop software in Electron that keeps working without internet.",
+    groups: ["Mobile", "Desktop"],
+  },
+  {
+    title: "AI, security & languages",
+    text: "Gemini-powered features, role-based access, and the languages underneath it all.",
+    groups: ["AI", "Security", "Language"],
+  },
 ];
 
 // Practices and features rather than tools; they're covered on each case study instead.
@@ -37,7 +53,7 @@ function buildLayers(projects: Project[]) {
           tools.set(item.name, tool);
         });
     });
-    return { title: layer.title, tools: Array.from(tools.values()) };
+    return { title: layer.title, text: layer.text, tools: Array.from(tools.values()) };
   });
 }
 
@@ -54,6 +70,7 @@ export function StackMap({ projects }: { projects: Project[] }) {
         {data.map((layer) => (
           <div className="stack-layer" key={layer.title}>
             <h3>{layer.title}</h3>
+            <p>{layer.text}</p>
             <ul>
               {layer.tools.map((tool) => {
                 const on = current?.name === tool.name;

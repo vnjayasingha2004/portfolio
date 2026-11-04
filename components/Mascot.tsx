@@ -76,22 +76,34 @@ export function Mascot() {
   useEffect(() => {
     const onHome = !!document.querySelector("[data-mascot-spot]");
     const timers: number[] = [];
+    const cleanups: (() => void)[] = [];
     setMessage(null);
 
     if (onHome) {
-      quietUntil.current = performance.now() + 9500;
-      timers.push(window.setTimeout(() => {
-        setShown(true);
-        hop();
-      }, 1500));
-      timers.push(window.setTimeout(() => say("Hello! Welcome to Vinira's portfolio 👋 I'm your guide.", 4200, true), 2100));
-      const coarse = matchMedia("(pointer: coarse)").matches;
-      timers.push(
-        window.setTimeout(
-          () => say(coarse ? "Tap anywhere and I'll look. Scroll and I'll show you around!" : "Move your cursor, I'll follow it. Scroll and I'll show you around!", 3600),
-          6200,
-        ),
-      );
+      const greet = () => {
+        quietUntil.current = performance.now() + 9500;
+        timers.push(window.setTimeout(() => {
+          setShown(true);
+          hop();
+        }, 1500));
+        timers.push(window.setTimeout(() => say("Hello! Welcome to Vinira's portfolio 👋 I'm your guide.", 4200, true), 2100));
+        const coarse = matchMedia("(pointer: coarse)").matches;
+        timers.push(
+          window.setTimeout(
+            () => say(coarse ? "Tap anywhere and I'll look. Scroll and I'll show you around!" : "Move your cursor, I'll follow it. Scroll and I'll show you around!", 3600),
+            6200,
+          ),
+        );
+      };
+      // Wait for the opening scene, if it's playing
+      if (window.__introDone === false) {
+        quietUntil.current = Infinity;
+        const onDone = () => greet();
+        window.addEventListener("intro:done", onDone, { once: true });
+        cleanups.push(() => window.removeEventListener("intro:done", onDone));
+      } else {
+        greet();
+      }
     } else {
       quietUntil.current = performance.now() + 900;
       timers.push(window.setTimeout(() => {
@@ -99,7 +111,10 @@ export function Mascot() {
         hop();
       }, 650));
     }
-    return () => timers.forEach(window.clearTimeout);
+    return () => {
+      timers.forEach(window.clearTimeout);
+      cleanups.forEach((fn) => fn());
+    };
   }, [pathname, hop, say]);
 
   // Lines sent by other parts of the page (the work walk-through), and riding
@@ -258,6 +273,7 @@ export function Mascot() {
       const facing = walkSpot?.dataset.facing === "-1" ? -1 : 1;
       root.classList.toggle("is-walking", walking);
       root.classList.toggle("is-on-walk", mode === "walk");
+      root.classList.toggle("is-in-spot", mode === "spot");
       root.classList.toggle("is-facing-left", mode === "walk" && facing === -1);
 
       if (!init) {
