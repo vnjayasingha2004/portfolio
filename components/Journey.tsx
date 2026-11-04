@@ -50,10 +50,9 @@ export function Journey() {
   const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 24 });
 
   return (
-    <section className="section journey" id="journey" data-theme="space" data-bot-say="Here's the road so far: study, client work and projects.">
-      <div className="shell journey-grid">
+    <div className="shell journey-grid" id="journey" data-bot-say="Here's the road so far: study, client work and projects.">
         <div className="journey-head">
-          <MaskText className="section-title">Journey</MaskText>
+          <MaskText as="h3" className="journey-title">The road so far</MaskText>
           <p className="section-note">Study, client work and the products along the way.</p>
         </div>
         <ol ref={ref} className="journey-list">
@@ -77,7 +76,6 @@ export function Journey() {
             </motion.li>
           ))}
         </ol>
-      </div>
-    </section>
+    </div>
   );
 }

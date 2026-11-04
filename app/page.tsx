@@ -10,7 +10,6 @@ import { RevealStatement } from "@/components/RevealStatement";
 import { RotatingWord } from "@/components/RotatingWord";
 import { ScrollCue } from "@/components/ScrollCue";
 import { StackMap } from "@/components/StackMap";
-import { VelocityMarquee } from "@/components/VelocityMarquee";
 import { WalkThrough } from "@/components/WalkThrough";
 import { WorkButton } from "@/components/WorkButton";
 import { profile } from "@/lib/profile";
@@ -52,14 +51,18 @@ export default function Home() {
             <span className="status-dot" aria-hidden="true" />
             Available for work
           </p>
-          <ScrollCue target="#about" />
+          <ScrollCue target="#work" />
           <p className="hero-where">
             Tangalle, Sri Lanka <LocalTime />
           </p>
         </div>
       </HeroScene>
 
-      <section className="section about" id="about" data-theme="space" data-bot-say="First, a little about Vinira.">
+
+
+      <WalkThrough projects={projects} />
+
+      <section className="section about" id="about" data-theme="space" data-bot-say="Now, a little about Vinira.">
         <div className="shell about-grid">
           <MaskText className="section-label">About</MaskText>
           <div>
@@ -74,22 +77,18 @@ export default function Home() {
             </dl>
           </div>
         </div>
+
+        <Journey />
       </section>
 
       <section className="section stack" id="stack" data-theme="space" data-bot-say="His toolbox. Pick a tool to see where he used it.">
         <div className="shell">
           <div className="section-head">
-            <MaskText className="section-title">What I work with</MaskText>
+            <MaskText className="section-title">Skills</MaskText>
           </div>
           <StackMap projects={projects} />
         </div>
       </section>
-
-      <WalkThrough projects={projects} />
-
-      <Journey />
-
-      <VelocityMarquee />
 
       <ContactFooter />
     </main>

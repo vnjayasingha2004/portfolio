@@ -11,8 +11,8 @@ import { getLenis } from "./SmoothScroll";
 
 const links = [
   { href: "/#work", label: "Work" },
-  { href: "/#stack", label: "Stack" },
   { href: "/#about", label: "About" },
+  { href: "/#stack", label: "Skills" },
   { href: "/#contact", label: "Contact" },
 ];
 

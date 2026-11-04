@@ -204,6 +204,11 @@ export function Mascot() {
     let mode: "spot" | "walk" | "dock" | null = null;
     let flying = false;
     let frame = 0;
+    let spotsAt = -1e9;
+    let nextGlance = 0;
+    const written = { tf: "", s: "", lx: "", ly: "" };
+    let heroSpot: HTMLElement | null = null;
+    let walkSpot: HTMLElement | null = null;
     let lastScroll = window.scrollY;
     let scrollVel = 0;
 
@@ -232,8 +237,11 @@ export function Mascot() {
     const tick = (now: number) => {
       // Where to stand: next to the name in the hero, on the ground line while the
       // work walk-through is pinned, otherwise docked in the corner.
-      const heroSpot = document.querySelector<HTMLElement>("[data-mascot-spot]");
-      const walkSpot = document.querySelector<HTMLElement>("[data-mascot-walk]");
+      if (now - spotsAt > 500) {
+        spotsAt = now;
+        heroSpot = document.querySelector<HTMLElement>("[data-mascot-spot]");
+        walkSpot = document.querySelector<HTMLElement>("[data-mascot-walk]");
+      }
       const hr = heroSpot?.getBoundingClientRect();
       const wr = walkSpot?.getBoundingClientRect();
       const narrow = window.innerWidth < 720;
@@ -317,20 +325,36 @@ export function Mascot() {
       } else if (coarse && Math.abs(scrollVel) > 0.6) {
         look.tx = Math.sin(now / 900) * 0.25;
         look.ty = clamp(scrollVel / 14, -1, 1);
-      } else {
-        const t = now / 1000;
-        look.tx = Math.sin(t * 0.6) * 0.6;
-        look.ty = Math.sin(t * 0.41 + 1) * 0.3;
+      } else if (now > nextGlance) {
+        // Idle: glance somewhere new every couple of seconds, then hold still
+        nextGlance = now + 1600 + Math.random() * 2200;
+        look.tx = (Math.random() - 0.5) * 1.3;
+        look.ty = (Math.random() - 0.5) * 0.6;
       }
 
       const lk = reduce ? 1 : 0.16;
       look.x += (look.tx - look.x) * lk;
       look.y += (look.ty - look.y) * lk;
 
-      root.style.transform = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`;
-      root.style.setProperty("--s", pos.s.toFixed(4));
-      root.style.setProperty("--look-x", look.x.toFixed(4));
-      root.style.setProperty("--look-y", look.y.toFixed(4));
+      // Only touch styles when something visibly changed
+      const tf = `translate3d(${pos.x.toFixed(1)}px, ${pos.y.toFixed(1)}px, 0)`;
+      if (tf !== written.tf) {
+        written.tf = tf;
+        root.style.transform = tf;
+      }
+      const sc = pos.s.toFixed(3);
+      if (sc !== written.s) {
+        written.s = sc;
+        root.style.setProperty("--s", sc);
+      }
+      const lx = look.x.toFixed(3);
+      const ly = look.y.toFixed(3);
+      if (lx !== written.lx || ly !== written.ly) {
+        written.lx = lx;
+        written.ly = ly;
+        root.style.setProperty("--look-x", lx);
+        root.style.setProperty("--look-y", ly);
+      }
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
@@ -392,28 +416,28 @@ export function Mascot() {
         <button type="button" className="m-button" onClick={onClick} aria-label="Your guide to Vinira's portfolio. Press for a tip.">
           <span className="m-hop">
             <span className="m-turn">
+              <span className="m-pack">
+                <i className="m-flame m-flame-l" />
+                <i className="m-flame m-flame-r" />
+              </span>
+              <span className="m-foot m-foot-l" />
+              <span className="m-foot m-foot-r" />
+              <span className="m-arm m-arm-l" />
+              <span className="m-arm m-arm-r" />
+              <span className="m-body">
+                <span className="m-badge" />
+              </span>
               <span className="m-antenna">
                 <i />
               </span>
-              <span className="m-arm m-arm-l" />
-              <span className="m-arm m-arm-r" />
-              <span className="m-foot m-foot-l" />
-              <span className="m-foot m-foot-r" />
-              <span className="m-body">
-                <span className="m-face">
+              <span className="m-helmet">
+                <span className="m-visor">
                   <span className="m-eyes">
-                    <span className="m-eye">
-                      <i />
-                    </span>
-                    <span className="m-eye">
-                      <i />
-                    </span>
-                  </span>
-                  <span className="m-cheeks">
-                    <span />
-                    <span />
+                    <span className="m-eye" />
+                    <span className="m-eye" />
                   </span>
                   <span className="m-mouth" />
+                  <span className="m-glare" />
                 </span>
               </span>
             </span>

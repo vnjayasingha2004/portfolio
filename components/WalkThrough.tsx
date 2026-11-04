@@ -10,7 +10,7 @@ import { Magnetic } from "./Magnetic";
 const HOLD = 1;
 const MOVE = 1.3;
 // Viewport heights of scrolling per unit above
-const VH_PER_UNIT = 42;
+const VH_PER_UNIT = 30;
 
 const easeInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
 
@@ -104,13 +104,25 @@ export function WalkThrough({ projects }: { projects: Project[] }) {
       }
       if (!pinned && rect.top > 0) saidAt = -1;
 
-      frame = requestAnimationFrame(tick);
+      frame = active ? requestAnimationFrame(tick) : 0;
     };
 
+    // Only animate while the section is on (or near) the screen
+    let active = false;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        active = entry.isIntersecting;
+        if (active && !frame) frame = requestAnimationFrame(tick);
+        if (!active) spot.dataset.walking = "false";
+      },
+      { rootMargin: "200px 0px" },
+    );
+    io.observe(section);
+
     measure();
-    frame = requestAnimationFrame(tick);
     window.addEventListener("resize", measure);
     return () => {
+      io.disconnect();
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", measure);
     };

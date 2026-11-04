@@ -19,12 +19,28 @@ function finish() {
   window.dispatchEvent(new Event("intro:done"));
 }
 
-type WarpStar = { x: number; y: number; z: number; pz: number; hue: number };
+const smooth = (a: number, b: number, t: number) => {
+  const x = Math.min(1, Math.max(0, (t - a) / (b - a)));
+  return x * x * x * (x * (x * 6 - 15) + 10); // smootherstep
+};
+
+// Timeline (ms)
+const RISE_START = 700;
+const RISE_END = 1900;
+const FALL_START = 2300;
+const FALL_END = 3300;
+const LEAVE_AT = 2750;
+const V_MIN = 0.0012;
+const V_MAX = 0.042;
+
+// Stars are drawn in a few batches (by depth and colour) instead of one stroke each
+const DEPTH_BANDS = 4;
+const COLORS = ["255,255,255", "184,170,255"];
 
 /**
- * The opening scene on the homepage: the logo appears over a still sky, the stars stretch
- * into a jump to light speed, then settle into the background as the name is revealed.
- * Plays once per browser session; any click, key or scroll skips it.
+ * The opening scene on the homepage: the logo appears over a still sky, the stars
+ * stretch into a jump to light speed, then ease out as the page fades in and the
+ * name unfolds. Plays once per browser session; any click, key or scroll skips it.
  */
 export function OpeningScene() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -51,91 +67,107 @@ export function OpeningScene() {
     document.documentElement.classList.add("is-intro");
 
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
-    if (!canvas || !ctx) return;
+    const ctx = canvas?.getContext("2d", { alpha: true });
+    if (!canvas || !ctx) {
+      finish();
+      return;
+    }
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     const w = window.innerWidth;
     const h = window.innerHeight;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.lineCap = "round";
     const cx = w / 2;
     const cy = h / 2;
-    const focal = Math.max(w, h) * 0.5;
+    const spread = Math.max(w, h);
 
-    const stars: WarpStar[] = Array.from({ length: Math.min(700, Math.round((w * h) / 2600)) }, () => {
-      const z = Math.random();
-      return {
-        x: (Math.random() - 0.5) * w * 2,
-        y: (Math.random() - 0.5) * h * 2,
-        z,
-        pz: z,
-        hue: Math.random() < 0.3 ? 230 + Math.random() * 40 : 0,
-      };
-    });
+    const count = Math.min(460, Math.round((w * h) / 3200));
+    const xs = new Float32Array(count);
+    const ys = new Float32Array(count);
+    const zs = new Float32Array(count);
+    const tint = new Uint8Array(count);
+    for (let i = 0; i < count; i++) {
+      xs[i] = (Math.random() - 0.5) * spread;
+      ys[i] = (Math.random() - 0.5) * spread;
+      zs[i] = 0.05 + Math.random() * 0.95;
+      tint[i] = Math.random() < 0.28 ? 1 : 0;
+    }
 
-    // Speed over time (ms): drift, build up, light speed, brake, settle
-    const speedAt = (t: number) => {
-      if (t < 900) return 0.0015;
-      if (t < 2100) return 0.0015 + Math.pow((t - 900) / 1200, 2.2) * 0.05;
-      if (t < 2600) return 0.0515;
-      if (t < 3300) return 0.0515 * Math.pow(1 - (t - 2600) / 700, 2) + 0.001;
-      return 0.001;
-    };
+    const speedAt = (t: number) => V_MIN + (V_MAX - V_MIN) * (smooth(RISE_START, RISE_END, t) - smooth(FALL_START, FALL_END, t));
 
-    const start = performance.now();
+    let start = 0;
+    let last = 0;
     let frame = 0;
     let leaving = false;
-    let doneAt = 0;
+    let stopped = false;
 
     const leave = () => {
       if (leaving) return;
       leaving = true;
       setPhase("leave");
       finish();
-      doneAt = performance.now();
       window.setTimeout(() => {
+        stopped = true;
+        cancelAnimationFrame(frame);
         setPhase("gone");
         document.documentElement.classList.remove("is-intro");
         lenis?.start();
-      }, 900);
+      }, 1100);
     };
 
     const tick = (now: number) => {
+      if (!start) {
+        start = now;
+        last = now;
+      }
       const t = now - start;
-      const v = speedAt(t);
-      const streak = Math.min(1, v / 0.02);
-      ctx.fillStyle = `rgba(3,4,12,${0.35 + 0.5 * (1 - streak)})`;
-      ctx.fillRect(0, 0, w, h);
+      const dt = Math.min(48, now - last) / 16.67; // frame-rate independent
+      last = now;
+      const v = speedAt(t) * dt;
+      // Each streak shows where the star was ~14 frames ago: dots at rest, long lines at light speed
+      const trail = speedAt(t) * 14;
 
-      for (const s of stars) {
-        s.pz = s.z;
-        s.z -= v;
-        if (s.z <= 0.02) {
-          s.x = (Math.random() - 0.5) * w * 2;
-          s.y = (Math.random() - 0.5) * h * 2;
-          s.z = 1;
-          s.pz = 1;
+      ctx.clearRect(0, 0, w, h);
+      for (let band = 0; band < DEPTH_BANDS; band++) {
+        for (let c = 0; c < COLORS.length; c++) {
+          const near = (band + 0.5) / DEPTH_BANDS;
+          ctx.strokeStyle = `rgba(${COLORS[c]},${(0.35 + near * 0.65).toFixed(2)})`;
+          ctx.lineWidth = 0.6 + near * 1.9;
+          ctx.beginPath();
+          for (let i = 0; i < count; i++) {
+            if (tint[i] !== c) continue;
+            const z = zs[i];
+            if (Math.min(DEPTH_BANDS - 1, Math.floor((1 - z) * DEPTH_BANDS)) !== band) continue;
+            const sx = cx + (xs[i] / z) * 0.5;
+            const sy = cy + (ys[i] / z) * 0.5;
+            if (sx < -20 || sx > w + 20 || sy < -20 || sy > h + 20) continue;
+            const tail = Math.min(z + trail, 1.2);
+            const px = cx + (xs[i] / tail) * 0.5;
+            const py = cy + (ys[i] / tail) * 0.5;
+            ctx.moveTo(px, py);
+            ctx.lineTo(sx + 0.01, sy + 0.01);
+          }
+          ctx.stroke();
         }
-        const sx = cx + (s.x / s.z) * (focal / w);
-        const sy = cy + (s.y / s.z) * (focal / h);
-        const px = cx + (s.x / s.pz) * (focal / w);
-        const py = cy + (s.y / s.pz) * (focal / h);
-        if (sx < -50 || sx > w + 50 || sy < -50 || sy > h + 50) continue;
-        const near = 1 - s.z;
-        ctx.strokeStyle = s.hue ? `hsla(${s.hue},90%,80%,${0.4 + near * 0.6})` : `rgba(255,255,255,${0.35 + near * 0.65})`;
-        ctx.lineWidth = 0.4 + near * 2.2;
-        ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(sx + 0.1, sy + 0.1);
-        ctx.stroke();
       }
 
-      if (!leaving && t > 3000) leave();
-      if (!leaving || now - doneAt < 1000) frame = requestAnimationFrame(tick);
+      for (let i = 0; i < count; i++) {
+        zs[i] -= v;
+        if (zs[i] <= 0.03) {
+          xs[i] = (Math.random() - 0.5) * spread;
+          ys[i] = (Math.random() - 0.5) * spread;
+          zs[i] = 1;
+        }
+      }
+
+      if (!leaving && t > LEAVE_AT) leave();
+      if (!stopped) frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
+    // Start on the next frame so hydration work doesn't eat the first moments
+    frame = requestAnimationFrame(() => (frame = requestAnimationFrame(tick)));
 
     const skip = () => leave();
     const opts = { once: true, passive: true } as const;
@@ -145,6 +177,7 @@ export function OpeningScene() {
     window.addEventListener("pointerdown", skip, opts);
 
     return () => {
+      stopped = true;
       cancelAnimationFrame(frame);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("wheel", skip);
@@ -165,6 +198,7 @@ export function OpeningScene() {
       </noscript>
       <canvas ref={canvasRef} className="opening-stars" />
       <div className="opening-mark">
+        <span className="opening-glow" />
         <Logo className="opening-logo" />
         <p>Departing from Tangalle, Sri Lanka</p>
       </div>
