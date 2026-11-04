@@ -90,7 +90,7 @@ export function Mascot() {
         const coarse = matchMedia("(pointer: coarse)").matches;
         timers.push(
           window.setTimeout(
-            () => say(coarse ? "Tap anywhere and I'll look. Scroll and I'll show you around!" : "Move your cursor, I'll follow it. Scroll and I'll show you around!", 3600),
+            () => window.scrollY < window.innerHeight * 0.5 && say(coarse ? "Tap anywhere and I'll look. Scroll and I'll show you around!" : "Move your cursor, I'll follow it. Scroll and I'll show you around!", 3600),
             6200,
           ),
         );
@@ -273,6 +273,8 @@ export function Mascot() {
           flying = true;
           root.classList.add("is-flying");
         }
+        // A project line from the walk-through shouldn't follow you out of it
+        if (mode === "walk") setMessage(null);
         mode = nextMode;
         setDocked(nextMode === "dock");
       }
